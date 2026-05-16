@@ -1,11 +1,7 @@
 <section class="section brand-section">
   <div class="container">
     {%- if section.settings.image != blank -%}
-      <img
-        class="brand-section__image"
-        src="{{ section.settings.image | image_url: width: 800 }}"
-        alt="{{ section.settings.title }}"
-        loading="lazy">
+      <img class="brand-section__image" src="{{ section.settings.image | image_url: width: 900 }}" alt="{{ section.settings.title | escape }}" loading="lazy" width="900" height="1125">
     {%- endif -%}
     <div class="brand-section__text-content">
       {%- if section.settings.eyebrow != blank -%}
@@ -30,13 +26,12 @@
   "name": "Historia de marca",
   "settings": [
     { "type": "image_picker", "id": "image", "label": "Imagen" },
-    { "type": "text", "id": "eyebrow", "label": "Texto pequeño", "default": "Nuestra historia" },
-    { "type": "text", "id": "title", "label": "Título", "default": "Naradna. Sin rodeos." },
-    { "type": "textarea", "id": "text", "label": "Párrafo 1", "default": "No somos una marca de lujo. Somos algo mejor: una marca honesta. Cada fragancia de Naradna está formulada con ingredientes de calidad, diseñada para durar y pensada para el día a día real." },
-    { "type": "textarea", "id": "text2", "label": "Párrafo 2", "default": "€19,99. Envío gratis. Sin excusas." },
-    { "type": "text", "id": "btn_label", "label": "Botón texto", "default": "Descubrir colección" },
-    { "type": "url", "id": "btn_url", "label": "Botón enlace" }
-  ],
-  "presets": [{ "name": "Historia de marca" }]
+    { "type": "text", "id": "eyebrow", "label": "Texto eyebrow", "default": "Nuestra historia" },
+    { "type": "text", "id": "title", "label": "Titulo", "default": "Naradna. Sin rodeos." },
+    { "type": "textarea", "id": "text", "label": "Parrafo 1", "default": "No somos una marca de lujo. Somos algo mejor: una marca honesta." },
+    { "type": "textarea", "id": "text2", "label": "Parrafo 2", "default": "19,99. Envio gratis. Sin excusas." },
+    { "type": "text", "id": "btn_label", "label": "Boton texto", "default": "Descubrir coleccion" },
+    { "type": "url", "id": "btn_url", "label": "Boton enlace" }
+  ]
 }
 {% endschema %}

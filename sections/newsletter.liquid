@@ -6,7 +6,7 @@
     {% form 'customer' %}
       <div class="newsletter-form">
         <input type="hidden" name="contact[tags]" value="newsletter">
-        <input type="email" name="contact[email]" placeholder="{{ section.settings.placeholder }}" required>
+        <input type="email" name="contact[email]" placeholder="{{ section.settings.placeholder }}" required aria-label="Email">
         <button type="submit" name="commit">{{ section.settings.btn_label }}</button>
       </div>
     {% endform %}
@@ -18,13 +18,12 @@
 {
   "name": "Newsletter",
   "settings": [
-    { "type": "text", "id": "eyebrow", "label": "Texto pequeño", "default": "Comunidad Naradna" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Comunidad Naradna" },
     { "type": "text", "id": "title", "label": "Titulo", "default": "Se el primero en saberlo." },
-    { "type": "text", "id": "subtitle", "label": "Subtitulo", "default": "Nuevas fragancias, lanzamientos exclusivos y acceso anticipado." },
-    { "type": "text", "id": "placeholder", "label": "Placeholder email", "default": "Tu email" },
+    { "type": "text", "id": "subtitle", "label": "Subtitulo", "default": "Nuevas fragancias y lanzamientos exclusivos." },
+    { "type": "text", "id": "placeholder", "label": "Placeholder", "default": "Tu email" },
     { "type": "text", "id": "btn_label", "label": "Boton", "default": "Apuntarme" },
-    { "type": "text", "id": "note", "label": "Nota legal", "default": "Sin spam. Puedes darte de baja cuando quieras." }
-  ],
-  "presets": [{ "name": "Newsletter" }]
+    { "type": "text", "id": "note", "label": "Nota", "default": "Sin spam. Date de baja cuando quieras." }
+  ]
 }
 {% endschema %}

@@ -1,14 +1,17 @@
-<div class="container">
-  <div class="collection-header">
+<main class="container" id="CollectionMain">
+  <header class="collection-header">
     <h1 class="collection-header__title">{{ collection.title }}</h1>
+    {%- if collection.description != blank -%}
+      <p class="collection-header__desc">{{ collection.description }}</p>
+    {%- endif -%}
     <p class="collection-header__count">{{ collection.products_count }} fragancias</p>
-  </div>
+  </header>
 
-  <div class="collection-filters">
-    <button class="filter-btn active" data-tag="all">Todos</button>
-    <button class="filter-btn" data-tag="para-el">Para él</button>
-    <button class="filter-btn" data-tag="para-ella">Para ella</button>
-    <button class="filter-btn" data-tag="unisex">Unisex</button>
+  <div class="collection-filters" role="list" aria-label="Filtrar por genero">
+    <button class="filter-btn active" data-tag="all" role="listitem">Todos</button>
+    <button class="filter-btn" data-tag="para-el" role="listitem">Para el</button>
+    <button class="filter-btn" data-tag="para-ella" role="listitem">Para ella</button>
+    <button class="filter-btn" data-tag="unisex" role="listitem">Unisex</button>
   </div>
 
   <div class="product-grid">
@@ -16,10 +19,10 @@
       {%- render 'product-card', product: product -%}
     {%- endfor -%}
   </div>
-</div>
+</main>
 
 {% schema %}
 {
-  "name": "Página de colección"
+  "name": "Pagina de coleccion"
 }
 {% endschema %}

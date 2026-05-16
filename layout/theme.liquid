@@ -2,14 +2,51 @@
 <html lang="es">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#111111">
   <link rel="canonical" href="{{ canonical_url }}">
+
   {%- if settings.favicon != blank -%}
     <link rel="icon" type="image/png" href="{{ settings.favicon | image_url: width: 32, height: 32 }}">
   {%- endif -%}
-  <title>{{ page_title }}{% if current_tags %} &ndash; {{ current_tags | join: ', ' }}{% endif %}{% if current_page != 1 %} &ndash; Página {{ current_page }}{% endif %}{% unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless %}</title>
-  {% if page_description %}<meta name="description" content="{{ page_description | escape }}">{% endif %}
+
+  <!-- SEO -->
+  <title>
+    {%- if page_title == shop.name -%}
+      {{ shop.name }} | Fragancias de calidad a precio justo
+    {%- else -%}
+      {{ page_title }} | {{ shop.name }}
+    {%- endif -%}
+  </title>
+  {%- if page_description -%}
+    <meta name="description" content="{{ page_description | escape }}">
+  {%- else -%}
+    <meta name="description" content="{{ shop.description | default: 'Fragancias de calidad a precio justo. Envio gratis en todos los pedidos.' | escape }}">
+  {%- endif -%}
+
+  <!-- Open Graph -->
+  <meta property="og:site_name" content="{{ shop.name }}">
+  <meta property="og:url" content="{{ canonical_url }}">
+  <meta property="og:title" content="{{ page_title | escape }}">
+  <meta property="og:type" content="website">
+  {%- if page_image -%}
+    <meta property="og:image" content="{{ page_image | image_url: width: 1200 }}">
+    <meta property="og:image:width" content="1200">
+  {%- endif -%}
+  {%- if page_description -%}
+    <meta property="og:description" content="{{ page_description | escape }}">
+  {%- endif -%}
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="{{ page_title | escape }}">
+  {%- if page_description -%}
+    <meta name="twitter:description" content="{{ page_description | escape }}">
+  {%- endif -%}
+
+  <!-- Preconnect -->
+  <link rel="preconnect" href="https://cdn.shopify.com">
+
   {{ content_for_header }}
   {{ 'base.css' | asset_url | stylesheet_tag }}
 </head>
@@ -20,24 +57,35 @@
 {%- section 'announcement-bar' -%}
 {%- section 'header' -%}
 
-<main id="MainContent" role="main">
+<main id="MainContent" role="main" tabindex="-1">
   {{ content_for_layout }}
 </main>
 
 {%- section 'footer' -%}
 
-<div id="cart-overlay" class="cart-overlay hidden"></div>
-<div id="cart-drawer" class="cart-drawer" aria-hidden="true">
+<!-- CART DRAWER -->
+<div id="cart-overlay" class="cart-overlay hidden" aria-hidden="true"></div>
+<div id="cart-drawer" class="cart-drawer" aria-hidden="true" role="dialog" aria-label="Carrito de compra" aria-modal="true">
   <div class="cart-drawer__header">
     <span class="cart-drawer__title">Tu carrito</span>
     <button class="cart-drawer__close" aria-label="Cerrar carrito">&#10005;</button>
   </div>
   <div id="cart-drawer-content" class="cart-drawer__content"></div>
-  <div class="cart-drawer__footer">
-    <a href="/cart" class="btn btn--full">Ver carrito &amp; pagar</a>
-  </div>
+  <div class="cart-drawer__footer" id="cart-drawer-footer"></div>
 </div>
 
 {{ 'theme.js' | asset_url | script_tag }}
+
+<!-- Schema.org Organization -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "{{ shop.name | escape }}",
+  "url": "{{ shop.url }}",
+  "logo": "{% if settings.favicon %}{{ settings.favicon | image_url: width: 200 }}{% endif %}"
+}
+</script>
+
 </body>
 </html>

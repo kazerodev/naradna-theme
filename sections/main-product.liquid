@@ -1,104 +1,128 @@
-{%- assign product = product -%}
 {%- assign current_variant = product.selected_or_first_available_variant -%}
 
-<div class="product-page">
+<article class="product-page" itemscope itemtype="https://schema.org/Product">
+  <meta itemprop="name" content="{{ product.title | escape }}">
+  <meta itemprop="description" content="{{ product.description | strip_html | escape }}">
+  {%- if product.featured_image -%}
+    <meta itemprop="image" content="{{ product.featured_image | image_url: width: 800 }}">
+  {%- endif -%}
+
   <div class="container">
 
-    <!-- GALERÍA -->
-    <div class="product-gallery">
-      <div class="product-gallery__main">
+    <!-- GALERIA -->
+    <div class="product-gallery" role="region" aria-label="Imagenes del producto">
+      <div class="product-gallery__main" id="MainImageWrap">
         <img
           id="MainProductImage"
           src="{{ product.featured_image | image_url: width: 900 }}"
-          alt="{{ product.featured_image.alt | escape }}"
+          alt="{{ product.featured_image.alt | default: product.title | escape }}"
           loading="eager"
-          width="900" height="900">
+          fetchpriority="high"
+          width="900" height="900"
+          itemprop="image">
       </div>
       {%- if product.images.size > 1 -%}
-        <div class="product-gallery__thumbs">
+        <div class="product-gallery__thumbs" role="list">
           {%- for image in product.images -%}
-            <div class="product-gallery__thumb{% if forloop.first %} active{% endif %}">
-              <img
-                src="{{ image | image_url: width: 160 }}"
-                alt="{{ image.alt | escape }}"
-                loading="lazy"
-                width="80" height="80">
-            </div>
+            <button
+              class="product-gallery__thumb{% if forloop.first %} active{% endif %}"
+              aria-label="Ver imagen {{ forloop.index }}"
+              data-src="{{ image | image_url: width: 900 }}"
+              role="listitem">
+              <img src="{{ image | image_url: width: 160 }}" alt="{{ image.alt | default: product.title | escape }}" loading="lazy" width="80" height="80">
+            </button>
           {%- endfor -%}
         </div>
       {%- endif -%}
     </div>
 
     <!-- INFO -->
-    <div class="product-info">
+    <div class="product-info" itemprop="offers" itemscope itemtype="https://schema.org/Offer">
+      <meta itemprop="priceCurrency" content="{{ cart.currency.iso_code }}">
+      <meta itemprop="price" content="{{ current_variant.price | divided_by: 100.0 }}">
+      <meta itemprop="availability" content="{% if current_variant.available %}https://schema.org/InStock{% else %}https://schema.org/OutOfStock{% endif %}">
+      <link itemprop="url" href="{{ shop.url }}{{ product.url }}">
+
       {%- assign gender_tag = '' -%}
-      {%- if product.tags contains 'para-el' -%}{%- assign gender_tag = 'Para él' -%}
+      {%- if product.tags contains 'para-el' -%}{%- assign gender_tag = 'Para el' -%}
       {%- elsif product.tags contains 'para-ella' -%}{%- assign gender_tag = 'Para ella' -%}
       {%- elsif product.tags contains 'unisex' -%}{%- assign gender_tag = 'Unisex' -%}
       {%- endif -%}
+
       {%- if gender_tag != '' -%}
         <p class="product-info__category">{{ gender_tag }}</p>
       {%- endif -%}
 
-      <h1 class="product-info__title">{{ product.title }}</h1>
-      <p class="product-info__price">{{ current_variant.price | money }}</p>
-      <p class="product-info__shipping">✓ Envío gratis incluido</p>
+      <h1 class="product-info__title" itemprop="name">{{ product.title }}</h1>
 
-      <div class="product-info__urgency">
-        ⚡ Quedan pocas unidades &mdash; pide el tuyo antes de que se agote
+      <div class="product-info__price-row">
+        <span class="product-info__price">{{ current_variant.price | money }}</span>
+        <span class="product-info__shipping">&#10003; Envio gratis</span>
       </div>
 
-      <div class="product-info__description">
+      <div class="product-info__urgency" role="alert">
+        &#9889; Quedan pocas unidades &mdash; pide el tuyo antes de que se agote
+      </div>
+
+      <div class="product-info__description" itemprop="description">
         {{ product.description }}
       </div>
 
-      <form class="product-form" action="/cart/add" method="post" enctype="multipart/form-data">
+      <form class="product-form" action="/cart/add" method="post" enctype="multipart/form-data" novalidate>
         <input type="hidden" name="id" value="{{ current_variant.id }}">
-        <div class="quantity-selector">
-          <button type="button" class="qty-minus">&#8722;</button>
-          <input type="number" name="quantity" value="1" min="1" max="99">
-          <button type="button" class="qty-plus">&#43;</button>
+
+        <div class="quantity-row">
+          <label for="Quantity" class="visually-hidden">Cantidad</label>
+          <div class="quantity-selector">
+            <button type="button" class="qty-minus" aria-label="Reducir cantidad">&#8722;</button>
+            <input id="Quantity" type="number" name="quantity" value="1" min="1" max="99" aria-label="Cantidad">
+            <button type="button" class="qty-plus" aria-label="Aumentar cantidad">&#43;</button>
+          </div>
+          <span class="product-info__volume">30 ml</span>
         </div>
-        <button type="submit" class="add-to-cart-btn">
-          {%- if current_variant.available -%}
-            Añadir al carrito
-          {%- else -%}
+
+        {%- if current_variant.available -%}
+          <button type="submit" class="add-to-cart-btn" name="add" aria-label="Añadir {{ product.title }} al carrito">
+            Añadir al carrito &mdash; {{ current_variant.price | money }}
+          </button>
+        {%- else -%}
+          <button type="button" class="add-to-cart-btn add-to-cart-btn--soldout" disabled>
             Agotado
-          {%- endif -%}
-        </button>
+          </button>
+        {%- endif -%}
       </form>
 
-      <!-- BADGES -->
-      <div class="product-trust">
-        <div class="product-trust-item">
-          <svg width="16" height="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="3" width="15" height="13"></rect><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon><circle cx="5.5" cy="18.5" r="2.5"></circle><circle cx="18.5" cy="18.5" r="2.5"></circle></svg>
-          Envío gratis
+      <!-- TRUST -->
+      <div class="product-trust" role="list">
+        <div class="product-trust-item" role="listitem">
+          <svg width="16" height="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="1" y="3" width="15" height="13"></rect><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon><circle cx="5.5" cy="18.5" r="2.5"></circle><circle cx="18.5" cy="18.5" r="2.5"></circle></svg>
+          Envio gratis siempre
         </div>
-        <div class="product-trust-item">
-          <svg width="16" height="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
-          Pago seguro
+        <div class="product-trust-item" role="listitem">
+          <svg width="16" height="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+          Pago 100% seguro
         </div>
-        <div class="product-trust-item">
-          <svg width="16" height="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"></polyline><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path></svg>
-          Devolución 30 días
+        <div class="product-trust-item" role="listitem">
+          <svg width="16" height="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="23 4 23 10 17 10"></polyline><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path></svg>
+          Devolucion 30 dias
         </div>
-        <div class="product-trust-item">
-          <svg width="16" height="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+        <div class="product-trust-item" role="listitem">
+          <svg width="16" height="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
           Calidad garantizada
         </div>
       </div>
     </div>
 
   </div>
-</div>
+</article>
 
 <!-- PRODUCTOS RELACIONADOS -->
 {%- assign related = product.collections.first.products -%}
 {%- if related.size > 1 -%}
-<section class="related-section">
+<section class="related-section" aria-label="Productos relacionados">
   <div class="container">
     <div class="section__header">
-      <p class="section__eyebrow">Colección</p>
+      <p class="section__eyebrow">Coleccion</p>
       <h2 class="section__title">También te puede gustar</h2>
     </div>
     <div class="product-grid">
@@ -114,6 +138,6 @@
 
 {% schema %}
 {
-  "name": "Página de producto"
+  "name": "Pagina de producto"
 }
 {% endschema %}
