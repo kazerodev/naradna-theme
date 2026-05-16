@@ -2,54 +2,19 @@
   "sections": {
     "hero": {
       "type": "hero-banner",
-      "disabled": false,
-      "settings": {
-        "eyebrow": "Nueva colección",
-        "heading": "Fragancias que dejan huella.",
-        "subheading": "Siete fragancias crafteadas para quienes saben lo que quieren. Calidad real, precio justo.",
-        "btn_label": "Descubrir colección",
-        "btn_url": "/collections/all",
-        "btn2_label": "Para él",
-        "btn2_url": "/collections/para-el"
-      }
+      "settings": {}
     },
     "trust": {
       "type": "trust-badges",
-      "disabled": false,
-      "settings": {
-        "badge1_title": "Envío gratis",
-        "badge1_text": "En todos los pedidos, sin mínimo",
-        "badge2_title": "Pago seguro",
-        "badge2_text": "Visa, PayPal, Apple Pay",
-        "badge3_title": "Devolución 30 días",
-        "badge3_text": "Si no te gusta, te devolvemos el dinero",
-        "badge4_title": "Calidad garantizada",
-        "badge4_text": "Fragancias formuladas con ingredientes de calidad"
-      }
+      "settings": {}
     },
     "brand": {
       "type": "brand-story",
-      "disabled": false,
-      "settings": {
-        "eyebrow": "Nuestra historia",
-        "title": "Naradna. Sin rodeos.",
-        "text": "No somos una marca de lujo. Somos algo mejor: una marca honesta. Cada fragancia de Naradna está formulada con ingredientes de calidad, diseñada para durar y pensada para el día a día real.",
-        "text2": "€19,99. Envío gratis. Sin excusas.",
-        "btn_label": "Descubrir colección",
-        "btn_url": "/collections/all"
-      }
+      "settings": {}
     },
     "newsletter": {
       "type": "newsletter",
-      "disabled": false,
-      "settings": {
-        "eyebrow": "Comunidad Naradna",
-        "title": "Sé el primero en saberlo.",
-        "subtitle": "Nuevas fragancias, lanzamientos exclusivos y acceso anticipado.",
-        "placeholder": "Tu email",
-        "btn_label": "Apuntarme",
-        "note": "Sin spam. Puedes darte de baja cuando quieras."
-      }
+      "settings": {}
     }
   },
   "order": ["hero", "trust", "brand", "newsletter"]
