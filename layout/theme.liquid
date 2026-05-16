@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#111111">
+  <link rel="canonical" href="{{ canonical_url }}">
+  {%- if settings.favicon != blank -%}
+    <link rel="icon" type="image/png" href="{{ settings.favicon | image_url: width: 32, height: 32 }}">
+  {%- endif -%}
+  <title>{{ page_title }}{% if current_tags %} &ndash; {{ current_tags | join: ', ' }}{% endif %}{% if current_page != 1 %} &ndash; Página {{ current_page }}{% endif %}{% unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless %}</title>
+  {% if page_description %}<meta name="description" content="{{ page_description | escape }}">{% endif %}
+  {{ content_for_header }}
+  {{ 'base.css' | asset_url | stylesheet_tag }}
+</head>
+<body>
+
+<a class="skip-link" href="#MainContent">Saltar al contenido</a>
+
+{%- section 'announcement-bar' -%}
+{%- section 'header' -%}
+
+<main id="MainContent" role="main">
+  {{ content_for_layout }}
+</main>
+
+{%- section 'footer' -%}
+
+<div id="cart-overlay" class="cart-overlay hidden"></div>
+<div id="cart-drawer" class="cart-drawer" aria-hidden="true">
+  <div class="cart-drawer__header">
+    <span class="cart-drawer__title">Tu carrito</span>
+    <button class="cart-drawer__close" aria-label="Cerrar carrito">&#10005;</button>
+  </div>
+  <div id="cart-drawer-content" class="cart-drawer__content"></div>
+  <div class="cart-drawer__footer">
+    <a href="/cart" class="btn btn--full">Ver carrito &amp; pagar</a>
+  </div>
+</div>
+
+{{ 'theme.js' | asset_url | script_tag }}
+</body>
+</html>

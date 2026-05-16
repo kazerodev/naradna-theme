@@ -1,0 +1,59 @@
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer__top">
+      <div>
+        <span class="footer__brand-name">{{ shop.name }}</span>
+        <p class="footer__brand-desc">{{ section.settings.brand_desc }}</p>
+        <div class="footer__social">
+          {%- if section.settings.instagram != blank -%}
+            <a href="{{ section.settings.instagram }}" target="_blank" rel="noopener">Instagram</a>
+          {%- endif -%}
+          {%- if section.settings.tiktok != blank -%}
+            <a href="{{ section.settings.tiktok }}" target="_blank" rel="noopener">TikTok</a>
+          {%- endif -%}
+        </div>
+      </div>
+
+      <div>
+        <p class="footer__col-title">Colecciones</p>
+        <ul class="footer__links">
+          <li><a href="/collections/para-el">Para él</a></li>
+          <li><a href="/collections/para-ella">Para ella</a></li>
+          <li><a href="/collections/all">Todos los perfumes</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <p class="footer__col-title">Información</p>
+        <ul class="footer__links">
+          {%- for link in linklists[section.settings.footer_menu].links -%}
+            <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+          {%- endfor -%}
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer__bottom">
+      <p class="footer__copy">&copy; {{ 'now' | date: '%Y' }} {{ shop.name }}. Todos los derechos reservados.</p>
+      <div class="footer__payments">
+        <span class="footer__payment-badge">Visa</span>
+        <span class="footer__payment-badge">Mastercard</span>
+        <span class="footer__payment-badge">PayPal</span>
+        <span class="footer__payment-badge">Apple Pay</span>
+        <span class="footer__payment-badge">Google Pay</span>
+      </div>
+    </div>
+  </div>
+</footer>
+
+{% schema %}
+{
+  "name": "Pie de página",
+  "settings": [
+    { "type": "textarea", "id": "brand_desc", "label": "Descripción de marca", "default": "Fragancias que no necesitan nombre prestado. Calidad real, precio justo." },
+    { "type": "text", "id": "instagram", "label": "URL Instagram" },
+    { "type": "text", "id": "tiktok", "label": "URL TikTok" },
+    { "type": "link_list", "id": "footer_menu", "label": "Menú footer", "default": "footer" }
+  ]
+}
+{% endschema %}

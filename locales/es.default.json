@@ -1,0 +1,22 @@
+{
+  "general": {
+    "password_page": {
+      "login_form_heading": "Introduce la contraseña"
+    }
+  },
+  "products": {
+    "product": {
+      "add_to_cart": "Añadir al carrito",
+      "sold_out": "Agotado",
+      "unavailable": "No disponible"
+    }
+  },
+  "cart": {
+    "general": {
+      "title": "Tu carrito",
+      "empty": "Tu carrito está vacío",
+      "checkout": "Comprar ahora",
+      "continue_shopping": "Seguir comprando"
+    }
+  }
+}

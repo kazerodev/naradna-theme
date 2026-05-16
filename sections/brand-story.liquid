@@ -1,0 +1,42 @@
+<section class="section brand-section">
+  <div class="container">
+    {%- if section.settings.image != blank -%}
+      <img
+        class="brand-section__image"
+        src="{{ section.settings.image | image_url: width: 800 }}"
+        alt="{{ section.settings.title }}"
+        loading="lazy">
+    {%- endif -%}
+    <div class="brand-section__text-content">
+      {%- if section.settings.eyebrow != blank -%}
+        <p class="brand-section__eyebrow">{{ section.settings.eyebrow }}</p>
+      {%- endif -%}
+      <h2 class="brand-section__title">{{ section.settings.title }}</h2>
+      {%- if section.settings.text != blank -%}
+        <p class="brand-section__text">{{ section.settings.text }}</p>
+      {%- endif -%}
+      {%- if section.settings.text2 != blank -%}
+        <p class="brand-section__text">{{ section.settings.text2 }}</p>
+      {%- endif -%}
+      {%- if section.settings.btn_label != blank -%}
+        <a href="{{ section.settings.btn_url | default: '/collections/all' }}" class="btn btn--primary mt-24">{{ section.settings.btn_label }}</a>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Historia de marca",
+  "settings": [
+    { "type": "image_picker", "id": "image", "label": "Imagen" },
+    { "type": "text", "id": "eyebrow", "label": "Texto pequeño", "default": "Nuestra historia" },
+    { "type": "text", "id": "title", "label": "Título", "default": "Naradna. Sin rodeos." },
+    { "type": "textarea", "id": "text", "label": "Párrafo 1", "default": "No somos una marca de lujo. Somos algo mejor: una marca honesta. Cada fragancia de Naradna está formulada con ingredientes de calidad, diseñada para durar y pensada para el día a día real." },
+    { "type": "textarea", "id": "text2", "label": "Párrafo 2", "default": "€19,99. Envío gratis. Sin excusas." },
+    { "type": "text", "id": "btn_label", "label": "Botón texto", "default": "Descubrir colección" },
+    { "type": "url", "id": "btn_url", "label": "Botón enlace" }
+  ],
+  "presets": [{ "name": "Historia de marca" }]
+}
+{% endschema %}

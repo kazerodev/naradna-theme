@@ -1,0 +1,17 @@
+<div class="announcement-bar">
+  <span>{{ section.settings.text }}</span>
+</div>
+
+{% schema %}
+{
+  "name": "Barra de anuncio",
+  "settings": [
+    {
+      "type": "text",
+      "id": "text",
+      "label": "Texto",
+      "default": "🚚 Envío gratis en todos los pedidos · Devolución 30 días"
+    }
+  ]
+}
+{% endschema %}

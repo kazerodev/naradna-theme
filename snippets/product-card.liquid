@@ -1,0 +1,42 @@
+{%- assign first_variant = product.first_available_variant -%}
+<div class="product-card-wrapper">
+  <a href="{{ product.url }}" class="product-card" data-tags="{{ product.tags | join: ',' }}">
+    <div class="product-card__image-wrap">
+      {%- if product.featured_image -%}
+        <img
+          class="product-card__image"
+          src="{{ product.featured_image | image_url: width: 600 }}"
+          alt="{{ product.featured_image.alt | escape }}"
+          loading="lazy"
+          width="600" height="600">
+      {%- endif -%}
+      {%- if product.tags contains 'bestseller' -%}
+        <span class="product-card__badge product-card__badge--bestseller">Más vendido</span>
+      {%- elsif product.tags contains 'nuevo' -%}
+        <span class="product-card__badge">Nuevo</span>
+      {%- endif -%}
+    </div>
+    <div class="product-card__body">
+      {%- assign gender = '' -%}
+      {%- if product.tags contains 'para-el' -%}{%- assign gender = 'Para él' -%}
+      {%- elsif product.tags contains 'para-ella' -%}{%- assign gender = 'Para ella' -%}
+      {%- elsif product.tags contains 'unisex' -%}{%- assign gender = 'Unisex' -%}
+      {%- endif -%}
+      {%- if gender != '' -%}<p class="product-card__gender">{{ gender }}</p>{%- endif -%}
+      <h3 class="product-card__title">{{ product.title }}</h3>
+      {%- if product.metafields.custom.tagline != blank -%}
+        <p class="product-card__tagline">{{ product.metafields.custom.tagline }}</p>
+      {%- endif -%}
+      <div class="product-card__footer">
+        <span class="product-card__price">{{ product.price | money }}</span>
+        <button
+          class="product-card__btn"
+          data-variant-id="{{ first_variant.id }}"
+          data-url="{{ product.url }}"
+          onclick="event.preventDefault()">
+          Añadir
+        </button>
+      </div>
+    </div>
+  </a>
+</div>

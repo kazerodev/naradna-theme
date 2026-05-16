@@ -1,0 +1,43 @@
+<div class="cart-page">
+  <div class="container">
+    <h1 class="cart-page__title">Tu carrito</h1>
+    {%- if cart.item_count == 0 -%}
+      <div class="cart-empty">
+        <h2 class="cart-empty__title">Tu carrito está vacío</h2>
+        <p class="cart-empty__text">Añade alguna fragancia para continuar.</p>
+        <a href="/collections/all" class="btn btn--primary">Ver colección</a>
+      </div>
+    {%- else -%}
+      <div class="cart-items">
+        {%- for item in cart.items -%}
+          <div class="cart-item">
+            <img class="cart-item__image" src="{{ item.image | image_url: width: 160 }}" alt="{{ item.title | escape }}" loading="lazy">
+            <div>
+              <p class="cart-item__title">{{ item.title }}</p>
+              <p class="cart-item__price">{{ item.final_price | money }}</p>
+              <p style="font-size:13px;color:#777;">Cantidad: {{ item.quantity }}</p>
+            </div>
+            <div>
+              <p class="cart-item__price">{{ item.final_line_price | money }}</p>
+            </div>
+          </div>
+        {%- endfor -%}
+      </div>
+      <div class="cart-summary">
+        <div class="cart-summary__row">
+          <span>Subtotal</span>
+          <span>{{ cart.total_price | money }}</span>
+        </div>
+        <p class="cart-summary__shipping">✓ Envío gratis incluido</p>
+        <a href="/checkout" class="btn btn--primary btn--full">Comprar ahora</a>
+        <a href="/collections/all" class="btn btn--outline btn--full mt-8">Seguir comprando</a>
+      </div>
+    {%- endif -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Página de carrito"
+}
+{% endschema %}

@@ -1,0 +1,45 @@
+<section class="section" style="background:{{ section.settings.bg_color }}">
+  <div class="container">
+    <div class="section__header">
+      {%- if section.settings.eyebrow != blank -%}
+        <p class="section__eyebrow">{{ section.settings.eyebrow }}</p>
+      {%- endif -%}
+      <h2 class="section__title">{{ section.settings.title }}</h2>
+      {%- if section.settings.subtitle != blank -%}
+        <p class="section__subtitle">{{ section.settings.subtitle }}</p>
+      {%- endif -%}
+    </div>
+
+    {%- assign collection = collections[section.settings.collection] -%}
+    {%- if collection != blank -%}
+      <div class="product-grid">
+        {%- for product in collection.products limit: section.settings.products_count -%}
+          {%- render 'product-card', product: product -%}
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+
+    {%- if section.settings.btn_label != blank -%}
+      <div class="text-center mt-40">
+        <a href="{{ section.settings.btn_url | default: '/collections/all' }}" class="btn btn--outline">{{ section.settings.btn_label }}</a>
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Productos destacados",
+  "settings": [
+    { "type": "color", "id": "bg_color", "label": "Color de fondo", "default": "#fafaf8" },
+    { "type": "text", "id": "eyebrow", "label": "Texto pequeño", "default": "Colección" },
+    { "type": "text", "id": "title", "label": "Título", "default": "Nuestras fragancias" },
+    { "type": "text", "id": "subtitle", "label": "Subtítulo" },
+    { "type": "collection", "id": "collection", "label": "Colección" },
+    { "type": "range", "id": "products_count", "min": 2, "max": 8, "step": 1, "default": 4, "label": "Número de productos" },
+    { "type": "text", "id": "btn_label", "label": "Botón texto", "default": "Ver toda la colección" },
+    { "type": "url", "id": "btn_url", "label": "Botón enlace" }
+  ],
+  "presets": [{ "name": "Productos destacados" }]
+}
+{% endschema %}

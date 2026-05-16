@@ -1,0 +1,28 @@
+<section class="section newsletter-section">
+  <div class="container">
+    <p class="section__eyebrow">{{ section.settings.eyebrow }}</p>
+    <h2 class="section__title">{{ section.settings.title }}</h2>
+    <p class="section__subtitle">{{ section.settings.subtitle }}</p>
+    {% form 'customer', class: 'newsletter-form' %}
+      <input type="hidden" name="contact[tags]" value="newsletter">
+      <input type="email" name="contact[email]" placeholder="{{ section.settings.placeholder }}" required>
+      <button type="submit">{{ section.settings.btn_label }}</button>
+    {% endform %}
+    <p class="newsletter-note">{{ section.settings.note }}</p>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Newsletter",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Texto pequeño", "default": "Comunidad Naradna" },
+    { "type": "text", "id": "title", "label": "Título", "default": "Sé el primero en saberlo." },
+    { "type": "text", "id": "subtitle", "label": "Subtítulo", "default": "Nuevas fragancias, lanzamientos exclusivos y acceso anticipado." },
+    { "type": "text", "id": "placeholder", "label": "Placeholder email", "default": "Tu email" },
+    { "type": "text", "id": "btn_label", "label": "Botón", "default": "Apuntarme" },
+    { "type": "text", "id": "note", "label": "Nota legal", "default": "Sin spam. Puedes darte de baja cuando quieras." }
+  ],
+  "presets": [{ "name": "Newsletter" }]
+}
+{% endschema %}

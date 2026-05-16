@@ -1,0 +1,38 @@
+{
+  "sections": {
+    "hero": {
+      "type": "hero-banner",
+      "settings": {}
+    },
+    "featured-men": {
+      "type": "featured-products",
+      "settings": {
+        "eyebrow": "Para él",
+        "title": "Fragancias masculinas",
+        "products_count": 4
+      }
+    },
+    "trust": {
+      "type": "trust-badges",
+      "settings": {}
+    },
+    "featured-women": {
+      "type": "featured-products",
+      "settings": {
+        "eyebrow": "Para ella",
+        "title": "Fragancias femeninas",
+        "bg_color": "#ffffff",
+        "products_count": 4
+      }
+    },
+    "brand": {
+      "type": "brand-story",
+      "settings": {}
+    },
+    "newsletter": {
+      "type": "newsletter",
+      "settings": {}
+    }
+  },
+  "order": ["hero", "featured-men", "trust", "featured-women", "brand", "newsletter"]
+}
