@@ -11,24 +11,20 @@
 
     <!-- GALERIA -->
     <div class="product-gallery" role="region" aria-label="Imagenes del producto">
-      <div class="product-gallery__main" id="MainImageWrap">
+      <div class="product-gallery__main">
         <img
           id="MainProductImage"
-          src="{{ product.featured_image | image_url: width: 900 }}"
+          src="{{ product.featured_image | image_url: width: 1000 }}"
           alt="{{ product.featured_image.alt | default: product.title | escape }}"
           loading="eager"
           fetchpriority="high"
-          width="900" height="900"
+          width="1000" height="1000"
           itemprop="image">
       </div>
       {%- if product.images.size > 1 -%}
-        <div class="product-gallery__thumbs" role="list">
+        <div class="product-gallery__thumbs">
           {%- for image in product.images -%}
-            <button
-              class="product-gallery__thumb{% if forloop.first %} active{% endif %}"
-              aria-label="Ver imagen {{ forloop.index }}"
-              data-src="{{ image | image_url: width: 900 }}"
-              role="listitem">
+            <button class="product-gallery__thumb{% if forloop.first %} active{% endif %}" data-src="{{ image | image_url: width: 1000 }}" aria-label="Ver imagen {{ forloop.index }}">
               <img src="{{ image | image_url: width: 160 }}" alt="{{ image.alt | default: product.title | escape }}" loading="lazy" width="80" height="80">
             </button>
           {%- endfor -%}
@@ -49,6 +45,12 @@
       {%- elsif product.tags contains 'unisex' -%}{%- assign gender_tag = 'Unisex' -%}
       {%- endif -%}
 
+      <div class="product-info__breadcrumb">
+        <a href="/">Inicio</a> <span aria-hidden="true">/</span>
+        <a href="/collections/all">Fragancias</a> <span aria-hidden="true">/</span>
+        <span>{{ product.title }}</span>
+      </div>
+
       {%- if gender_tag != '' -%}
         <p class="product-info__category">{{ gender_tag }}</p>
       {%- endif -%}
@@ -56,12 +58,12 @@
       <h1 class="product-info__title" itemprop="name">{{ product.title }}</h1>
 
       <div class="product-info__price-row">
-        <span class="product-info__price">{{ current_variant.price | money }}</span>
-        <span class="product-info__shipping">&#10003; Envio gratis</span>
+        <span class="product-info__price" itemprop="price">{{ current_variant.price | money }}</span>
+        <span class="product-info__shipping-tag">&#10003; Envio gratis</span>
       </div>
 
-      <div class="product-info__urgency" role="alert">
-        &#9889; Quedan pocas unidades &mdash; pide el tuyo antes de que se agote
+      <div class="product-info__urgency" role="alert" aria-live="polite">
+        <span class="urgency-dot"></span> Quedan pocas unidades &mdash; pide el tuyo antes
       </div>
 
       <div class="product-info__description" itemprop="description">
@@ -72,18 +74,17 @@
         <input type="hidden" name="id" value="{{ current_variant.id }}">
 
         <div class="quantity-row">
-          <label for="Quantity" class="visually-hidden">Cantidad</label>
+          <label class="quantity-label">Cantidad</label>
           <div class="quantity-selector">
-            <button type="button" class="qty-minus" aria-label="Reducir cantidad">&#8722;</button>
-            <input id="Quantity" type="number" name="quantity" value="1" min="1" max="99" aria-label="Cantidad">
-            <button type="button" class="qty-plus" aria-label="Aumentar cantidad">&#43;</button>
+            <button type="button" class="qty-minus" aria-label="Menos">&#8722;</button>
+            <input type="number" name="quantity" value="1" min="1" max="99" aria-label="Cantidad">
+            <button type="button" class="qty-plus" aria-label="Mas">&#43;</button>
           </div>
-          <span class="product-info__volume">30 ml</span>
         </div>
 
         {%- if current_variant.available -%}
-          <button type="submit" class="add-to-cart-btn" name="add" aria-label="Añadir {{ product.title }} al carrito">
-            Añadir al carrito &mdash; {{ current_variant.price | money }}
+          <button type="submit" class="add-to-cart-btn" name="add">
+            Añadir al carrito &nbsp;&mdash;&nbsp; {{ current_variant.price | money }}
           </button>
         {%- else -%}
           <button type="button" class="add-to-cart-btn add-to-cart-btn--soldout" disabled>
@@ -92,34 +93,34 @@
         {%- endif -%}
       </form>
 
-      <!-- TRUST -->
-      <div class="product-trust" role="list">
-        <div class="product-trust-item" role="listitem">
-          <svg width="16" height="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="1" y="3" width="15" height="13"></rect><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon><circle cx="5.5" cy="18.5" r="2.5"></circle><circle cx="18.5" cy="18.5" r="2.5"></circle></svg>
-          Envio gratis siempre
+      <!-- TRUST BADGES -->
+      <div class="product-trust">
+        <div class="product-trust-item">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="1" y="3" width="15" height="13"></rect><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon><circle cx="5.5" cy="18.5" r="2.5"></circle><circle cx="18.5" cy="18.5" r="2.5"></circle></svg>
+          <div><strong>Envio gratis</strong><br><small>En todos los pedidos</small></div>
         </div>
-        <div class="product-trust-item" role="listitem">
-          <svg width="16" height="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
-          Pago 100% seguro
+        <div class="product-trust-item">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+          <div><strong>Pago seguro</strong><br><small>Visa, PayPal, Apple Pay</small></div>
         </div>
-        <div class="product-trust-item" role="listitem">
-          <svg width="16" height="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="23 4 23 10 17 10"></polyline><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path></svg>
-          Devolucion 30 dias
+        <div class="product-trust-item">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="23 4 23 10 17 10"></polyline><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path></svg>
+          <div><strong>30 dias</strong><br><small>Devolucion sin preguntas</small></div>
         </div>
-        <div class="product-trust-item" role="listitem">
-          <svg width="16" height="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
-          Calidad garantizada
+        <div class="product-trust-item">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+          <div><strong>Calidad real</strong><br><small>Ingredientes de primera</small></div>
         </div>
       </div>
-    </div>
 
+    </div>
   </div>
 </article>
 
-<!-- PRODUCTOS RELACIONADOS -->
+<!-- RELACIONADOS -->
 {%- assign related = product.collections.first.products -%}
 {%- if related.size > 1 -%}
-<section class="related-section" aria-label="Productos relacionados">
+<section class="related-section">
   <div class="container">
     <div class="section__header">
       <p class="section__eyebrow">Coleccion</p>
