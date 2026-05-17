@@ -11,14 +11,23 @@
           width="600" height="600">
       {%- endif -%}
       {%- if product.tags contains 'bestseller' -%}
-        <span class="product-card__badge product-card__badge--bestseller">Más vendido</span>
+        <span class="product-card__badge product-card__badge--bestseller">Mas vendido</span>
       {%- elsif product.tags contains 'nuevo' -%}
         <span class="product-card__badge">Nuevo</span>
       {%- endif -%}
+      <div class="product-card__overlay">
+        <button
+          class="product-card__btn"
+          data-variant-id="{{ first_variant.id }}"
+          data-url="{{ product.url }}"
+          onclick="event.preventDefault()">
+          Anadir al carrito
+        </button>
+      </div>
     </div>
     <div class="product-card__body">
       {%- assign gender = '' -%}
-      {%- if product.tags contains 'para-el' -%}{%- assign gender = 'Para él' -%}
+      {%- if product.tags contains 'para-el' -%}{%- assign gender = 'Para el' -%}
       {%- elsif product.tags contains 'para-ella' -%}{%- assign gender = 'Para ella' -%}
       {%- elsif product.tags contains 'unisex' -%}{%- assign gender = 'Unisex' -%}
       {%- endif -%}
@@ -29,13 +38,7 @@
       {%- endif -%}
       <div class="product-card__footer">
         <span class="product-card__price">{{ product.price | money }}</span>
-        <button
-          class="product-card__btn"
-          data-variant-id="{{ first_variant.id }}"
-          data-url="{{ product.url }}"
-          onclick="event.preventDefault()">
-          Añadir
-        </button>
+        <span class="product-card__shipping">&#10003; Envio gratis</span>
       </div>
     </div>
   </a>

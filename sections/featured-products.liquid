@@ -1,4 +1,4 @@
-<section class="section" style="background:{{ section.settings.bg_color }}">
+<section class="section featured-products-section" style="background:{{ section.settings.bg_color }}">
   <div class="container">
     <div class="section__header">
       {%- if section.settings.eyebrow != blank -%}
@@ -10,10 +10,13 @@
       {%- endif -%}
     </div>
 
-    {%- assign collection = collections[section.settings.collection] -%}
-    {%- if collection != blank -%}
+    {%- assign fp_collection = collections[section.settings.collection] -%}
+    {%- if fp_collection == blank -%}
+      {%- assign fp_collection = collections.all -%}
+    {%- endif -%}
+    {%- if fp_collection != blank -%}
       <div class="product-grid">
-        {%- for product in collection.products limit: section.settings.products_count -%}
+        {%- for product in fp_collection.products limit: section.settings.products_count -%}
           {%- render 'product-card', product: product -%}
         {%- endfor -%}
       </div>
@@ -32,14 +35,13 @@
   "name": "Productos destacados",
   "settings": [
     { "type": "color", "id": "bg_color", "label": "Color de fondo", "default": "#fafaf8" },
-    { "type": "text", "id": "eyebrow", "label": "Texto pequeño", "default": "Colección" },
-    { "type": "text", "id": "title", "label": "Título", "default": "Nuestras fragancias" },
-    { "type": "text", "id": "subtitle", "label": "Subtítulo" },
-    { "type": "collection", "id": "collection", "label": "Colección" },
-    { "type": "range", "id": "products_count", "min": 2, "max": 8, "step": 1, "default": 4, "label": "Número de productos" },
-    { "type": "text", "id": "btn_label", "label": "Botón texto", "default": "Ver toda la colección" },
-    { "type": "url", "id": "btn_url", "label": "Botón enlace" }
-  ],
-  "presets": [{ "name": "Productos destacados" }]
+    { "type": "text", "id": "eyebrow", "label": "Texto pequeno", "default": "Coleccion" },
+    { "type": "text", "id": "title", "label": "Titulo", "default": "Nuestras fragancias" },
+    { "type": "text", "id": "subtitle", "label": "Subtitulo" },
+    { "type": "collection", "id": "collection", "label": "Coleccion" },
+    { "type": "range", "id": "products_count", "min": 2, "max": 8, "step": 1, "default": 8, "label": "Numero de productos" },
+    { "type": "text", "id": "btn_label", "label": "Boton texto", "default": "Ver toda la coleccion" },
+    { "type": "url", "id": "btn_url", "label": "Boton enlace" }
+  ]
 }
 {% endschema %}

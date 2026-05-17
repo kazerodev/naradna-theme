@@ -54,33 +54,38 @@ document.addEventListener('DOMContentLoaded', function () {
     const content = document.getElementById('cart-drawer-content');
     if (!content) return;
     updateCartCount(cart.item_count);
+
     if (cart.item_count === 0) {
       content.innerHTML = '<div class="cart-drawer__empty"><p>Tu carrito está vacío</p></div>';
+      const footer = document.getElementById('cart-drawer-footer');
+      if (footer) footer.innerHTML = '';
       return;
     }
+
     let html = '';
     cart.items.forEach(item => {
       html += `
-        <div class="cart-item" style="grid-template-columns:72px 1fr auto;gap:12px;margin-bottom:12px;">
-          <img src="${item.image}" alt="${item.title}" class="cart-item__image" style="width:72px;height:72px;">
+        <div class="cart-item">
+          <img src="${item.image}" alt="${item.title}" class="cart-item__image">
           <div>
-            <div class="cart-item__title">${item.title}</div>
+            <div class="cart-item__title">${item.product_title}</div>
             <div class="cart-item__price">${formatMoney(item.final_price)}</div>
-            <div style="font-size:12px;color:#777">Cantidad: ${item.quantity}</div>
+            <div class="cart-item__qty">Cantidad: ${item.quantity}</div>
           </div>
-          <button class="cart-item__remove" data-key="${item.key}" onclick="removeCartItem('${item.key}')">✕</button>
+          <button class="cart-item__remove" aria-label="Eliminar" onclick="removeCartItem('${item.key}')">&#10005;</button>
         </div>`;
     });
     content.innerHTML = html;
-    const footer = document.querySelector('.cart-drawer__footer');
+
+    const footer = document.getElementById('cart-drawer-footer');
     if (footer) {
       footer.innerHTML = `
-        <div style="display:flex;justify-content:space-between;font-size:15px;font-weight:700;margin-bottom:14px;">
+        <div class="cart-drawer__total">
           <span>Total</span><span>${formatMoney(cart.total_price)}</span>
         </div>
-        <div style="font-size:12px;color:#2e7d32;font-weight:600;margin-bottom:14px;">✓ Envío gratis incluido</div>
+        <div class="cart-drawer__shipping-msg">&#10003; Envío gratis incluido</div>
         <a href="/checkout" class="btn btn--primary btn--full">Comprar ahora</a>
-        <a href="/cart" class="btn btn--outline btn--full" style="margin-top:8px;">Ver carrito</a>`;
+        <a href="/cart" class="btn btn--outline btn--full" style="margin-top:8px">Ver carrito</a>`;
     }
   }
 
@@ -92,7 +97,7 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   function formatMoney(cents) {
-    return (cents / 100).toFixed(2).replace('.', ',') + ' €';
+    return (cents / 100).toFixed(2).replace('.', ',') + ' €';
   }
 
   window.removeCartItem = function(key) {
@@ -103,34 +108,41 @@ document.addEventListener('DOMContentLoaded', function () {
     }).then(() => fetchCart());
   };
 
-  // Initial cart count
   fetchCart();
 
   // ---- ADD TO CART ----
+  function addToCartHandler(btn, variantId, qty) {
+    if (!variantId) return;
+    const originalText = btn.innerHTML;
+    btn.innerHTML = 'Añadiendo...';
+    btn.disabled = true;
+    fetch('/cart/add.js', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ id: variantId, quantity: qty || 1 })
+    })
+      .then(r => r.json())
+      .then(() => {
+        btn.innerHTML = '¡Añadido! ✓';
+        setTimeout(() => {
+          btn.innerHTML = originalText;
+          btn.disabled = false;
+        }, 1800);
+        openCart();
+      })
+      .catch(() => {
+        btn.innerHTML = originalText;
+        btn.disabled = false;
+      });
+  }
+
   document.querySelectorAll('.add-to-cart-btn').forEach(btn => {
     btn.addEventListener('click', function (e) {
       e.preventDefault();
       const form = this.closest('form');
       const variantId = form ? form.querySelector('[name="id"]')?.value : this.dataset.variantId;
       const qty = form ? parseInt(form.querySelector('[name="quantity"]')?.value || 1) : 1;
-      if (!variantId) return;
-      const originalText = this.textContent;
-      this.textContent = 'Añadiendo...';
-      this.disabled = true;
-      fetch('/cart/add.js', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ id: variantId, quantity: qty })
-      })
-        .then(r => r.json())
-        .then(() => {
-          this.textContent = '¡Añadido! ✓';
-          setTimeout(() => {
-            this.textContent = originalText;
-            this.disabled = false;
-          }, 1800);
-          openCart();
-        });
+      addToCartHandler(this, variantId, qty);
     });
   });
 
@@ -138,19 +150,10 @@ document.addEventListener('DOMContentLoaded', function () {
   document.querySelectorAll('.product-card__btn').forEach(btn => {
     btn.addEventListener('click', function (e) {
       e.preventDefault();
+      e.stopPropagation();
       const variantId = this.dataset.variantId;
       if (!variantId) { window.location = this.dataset.url; return; }
-      const orig = this.textContent;
-      this.textContent = '...';
-      fetch('/cart/add.js', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ id: variantId, quantity: 1 })
-      }).then(() => {
-        this.textContent = '✓';
-        setTimeout(() => { this.textContent = orig; }, 1500);
-        openCart();
-      });
+      addToCartHandler(this, variantId, 1);
     });
   });
 
@@ -158,7 +161,7 @@ document.addEventListener('DOMContentLoaded', function () {
   document.querySelectorAll('.quantity-selector').forEach(selector => {
     const input = selector.querySelector('input');
     selector.querySelector('.qty-minus')?.addEventListener('click', () => {
-      if (input.value > 1) input.value = parseInt(input.value) - 1;
+      if (parseInt(input.value) > 1) input.value = parseInt(input.value) - 1;
     });
     selector.querySelector('.qty-plus')?.addEventListener('click', () => {
       input.value = parseInt(input.value) + 1;
@@ -167,12 +170,15 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // ---- PRODUCT IMAGE GALLERY ----
   const thumbs = document.querySelectorAll('.product-gallery__thumb');
-  const mainImg = document.querySelector('.product-gallery__main img');
+  const mainImg = document.getElementById('MainProductImage');
   thumbs.forEach(thumb => {
     thumb.addEventListener('click', function () {
       thumbs.forEach(t => t.classList.remove('active'));
       this.classList.add('active');
-      if (mainImg) mainImg.src = this.querySelector('img').src.replace('_80x80', '_800x800');
+      if (mainImg) {
+        const newSrc = this.dataset.src;
+        if (newSrc) mainImg.src = newSrc;
+      }
     });
   });
 
@@ -183,11 +189,12 @@ document.addEventListener('DOMContentLoaded', function () {
       this.classList.add('active');
       const tag = this.dataset.tag;
       document.querySelectorAll('.product-card').forEach(card => {
+        const wrapper = card.closest('.product-card-wrapper') || card.parentElement;
         if (!tag || tag === 'all') {
-          card.closest('.product-card-wrapper')?.style.removeProperty('display');
+          wrapper.style.removeProperty('display');
         } else {
           const tags = card.dataset.tags || '';
-          card.closest('.product-card-wrapper')?.style.setProperty('display', tags.includes(tag) ? '' : 'none');
+          wrapper.style.display = tags.includes(tag) ? '' : 'none';
         }
       });
     });
