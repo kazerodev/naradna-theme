@@ -7,13 +7,6 @@
     <p class="collection-header__count">{{ collection.products_count }} fragancias</p>
   </header>
 
-  <div class="collection-filters" role="list" aria-label="Filtrar por genero">
-    <button class="filter-btn active" data-tag="all" role="listitem">Todos</button>
-    <button class="filter-btn" data-tag="para-el" role="listitem">Para el</button>
-    <button class="filter-btn" data-tag="para-ella" role="listitem">Para ella</button>
-    <button class="filter-btn" data-tag="unisex" role="listitem">Unisex</button>
-  </div>
-
   <div class="product-grid">
     {%- for product in collection.products -%}
       {%- render 'product-card', product: product -%}
