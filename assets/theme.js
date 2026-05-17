@@ -1,10 +1,61 @@
-// NARADNA THEME — theme.js v2
+// NARADNA THEME — theme.js v3
 (function () {
   'use strict';
 
   var isMobile = window.matchMedia('(max-width: 767px)').matches;
   var canHover = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
   var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* =============================================
+     HERO PARALLAX
+  ============================================= */
+  function initParallax() {
+    var heroBg = document.querySelector('.hero__bg');
+    if (!heroBg || reduceMotion) return;
+    window.addEventListener('scroll', function () {
+      heroBg.style.transform = 'translateY(' + (window.scrollY * 0.32) + 'px)';
+    }, { passive: true });
+  }
+
+  /* =============================================
+     REVIEW SECTION: stars + score counter
+  ============================================= */
+  function initReviewAnimations() {
+    var starsEl = document.querySelector('.reviews-overall__stars');
+    var scoreEl = document.querySelector('.reviews-overall__score');
+    if (!starsEl && !scoreEl) return;
+
+    // Wrap each star in a span for per-star animation
+    if (starsEl && !starsEl.querySelector('span')) {
+      starsEl.innerHTML = starsEl.textContent.split('').map(function (ch) {
+        return '<span>' + ch + '</span>';
+      }).join('');
+    }
+
+    var targetScore = scoreEl ? parseFloat(scoreEl.textContent) : 0;
+    var obs = new IntersectionObserver(function (entries) {
+      if (!entries[0].isIntersecting) return;
+      obs.disconnect();
+
+      // Stars pop in
+      if (starsEl) starsEl.classList.add('animate');
+
+      // Score counter
+      if (scoreEl && !reduceMotion) {
+        var start = performance.now(), dur = 1200;
+        function tick(now) {
+          var p = Math.min((now - start) / dur, 1);
+          var ease = 1 - Math.pow(1 - p, 3);
+          scoreEl.textContent = (ease * targetScore).toFixed(1) + ' de 5';
+          if (p < 1) requestAnimationFrame(tick);
+        }
+        requestAnimationFrame(tick);
+      }
+    }, { threshold: 0.4 });
+
+    var section = document.querySelector('.reviews-section') || (starsEl && starsEl.closest('section'));
+    if (section) obs.observe(section);
+  }
 
   /* =============================================
      NOISE TEXTURE
@@ -379,6 +430,7 @@
   ============================================= */
   document.addEventListener('DOMContentLoaded', function () {
 
+    initParallax();
     initCursorOrb();
     initCursor();
     initMagnetic();
@@ -388,6 +440,7 @@
     initScrollReveal();
     initTicker();
     initNavLinks();
+    initReviewAnimations();
 
     // ---- AOS ----
     if (typeof AOS !== 'undefined') {
