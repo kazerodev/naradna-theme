@@ -9,25 +9,39 @@
 
   <div class="container">
 
-    <!-- GALERIA -->
+    <!-- GALERIA SWIPER -->
     <div class="product-gallery" role="region" aria-label="Imagenes del producto">
-      <div class="product-gallery__main">
-        <img
-          id="MainProductImage"
-          src="{{ product.featured_image | image_url: width: 1000 }}"
-          alt="{{ product.featured_image.alt | default: product.title | escape }}"
-          loading="eager"
-          fetchpriority="high"
-          width="1000" height="1000"
-          itemprop="image">
-      </div>
-      {%- if product.images.size > 1 -%}
-        <div class="product-gallery__thumbs">
+      <div class="swiper product-gallery-swiper">
+        <div class="swiper-wrapper">
           {%- for image in product.images -%}
-            <button class="product-gallery__thumb{% if forloop.first %} active{% endif %}" data-src="{{ image | image_url: width: 1000 }}" aria-label="Ver imagen {{ forloop.index }}">
-              <img src="{{ image | image_url: width: 160 }}" alt="{{ image.alt | default: product.title | escape }}" loading="lazy" width="80" height="80">
-            </button>
+            <div class="swiper-slide">
+              <div class="product-gallery__slide">
+                <img
+                  src="{{ image | image_url: width: 1000 }}"
+                  alt="{{ image.alt | default: product.title | escape }}"
+                  {% if forloop.first %}loading="eager" fetchpriority="high"{% else %}loading="lazy"{% endif %}
+                  width="1000" height="1000"
+                  {% if forloop.first %}itemprop="image"{% endif %}>
+              </div>
+            </div>
           {%- endfor -%}
+        </div>
+        {%- if product.images.size > 1 -%}
+          <div class="swiper-button-prev" aria-label="Imagen anterior"></div>
+          <div class="swiper-button-next" aria-label="Imagen siguiente"></div>
+          <div class="swiper-pagination"></div>
+        {%- endif -%}
+      </div>
+
+      {%- if product.images.size > 1 -%}
+        <div class="swiper product-gallery-thumbs">
+          <div class="swiper-wrapper">
+            {%- for image in product.images -%}
+              <div class="swiper-slide product-gallery__thumb-slide">
+                <img src="{{ image | image_url: width: 160 }}" alt="{{ image.alt | default: product.title | escape }}" loading="lazy" width="80" height="80">
+              </div>
+            {%- endfor -%}
+          </div>
         </div>
       {%- endif -%}
     </div>
@@ -57,6 +71,13 @@
 
       <h1 class="product-info__title" itemprop="name">{{ product.title }}</h1>
 
+      <!-- ESTRELLAS -->
+      <div class="product-info__stars" aria-label="4.9 sobre 5 estrellas">
+        <span class="stars-display" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+        <span class="stars-score">4.9</span>
+        <span class="stars-count">&#183; 48 valoraciones</span>
+      </div>
+
       <div class="product-info__price-row">
         <span class="product-info__price" itemprop="price">{{ current_variant.price | money }}</span>
         <span class="product-info__shipping-tag">&#10003; Envio gratis</span>
@@ -83,8 +104,8 @@
         </div>
 
         {%- if current_variant.available -%}
-          <button type="submit" class="add-to-cart-btn" name="add">
-            Añadir al carrito &nbsp;&mdash;&nbsp; {{ current_variant.price | money }}
+          <button type="submit" class="add-to-cart-btn" name="add" id="MainAtcBtn">
+            Anadir al carrito &nbsp;&mdash;&nbsp; {{ current_variant.price | money }}
           </button>
         {%- else -%}
           <button type="button" class="add-to-cart-btn add-to-cart-btn--soldout" disabled>
@@ -117,6 +138,21 @@
   </div>
 </article>
 
+<!-- STICKY ATC BAR -->
+{%- if current_variant.available -%}
+<div class="sticky-atc" id="sticky-atc" aria-hidden="true">
+  <div class="container sticky-atc__inner">
+    <div class="sticky-atc__info">
+      <span class="sticky-atc__name">{{ product.title }}</span>
+      <span class="sticky-atc__price">{{ current_variant.price | money }}</span>
+    </div>
+    <button class="sticky-atc__btn" data-variant-id="{{ current_variant.id }}" aria-label="Anadir al carrito">
+      Anadir al carrito
+    </button>
+  </div>
+</div>
+{%- endif -%}
+
 <!-- RELACIONADOS -->
 {%- assign related = product.collections.first.products -%}
 {%- if related.size > 1 -%}
@@ -124,7 +160,7 @@
   <div class="container">
     <div class="section__header">
       <p class="section__eyebrow">Coleccion</p>
-      <h2 class="section__title">También te puede gustar</h2>
+      <h2 class="section__title">Tambien te puede gustar</h2>
     </div>
     <div class="product-grid">
       {%- for p in related limit: 4 -%}

@@ -2,19 +2,29 @@
 <div class="product-card-wrapper">
   <a href="{{ product.url }}" class="product-card" data-tags="{{ product.tags | join: ',' }}">
     <div class="product-card__image-wrap">
-      {%- if product.featured_image -%}
+
+      <img
+        class="product-card__img product-card__img--primary"
+        src="{{ product.featured_image | image_url: width: 600 }}"
+        alt="{{ product.featured_image.alt | escape }}"
+        loading="lazy"
+        width="600" height="600">
+
+      {%- if product.images.size > 1 -%}
         <img
-          class="product-card__image"
-          src="{{ product.featured_image | image_url: width: 600 }}"
-          alt="{{ product.featured_image.alt | escape }}"
+          class="product-card__img product-card__img--hover"
+          src="{{ product.images[1] | image_url: width: 600 }}"
+          alt="{{ product.images[1].alt | escape }}"
           loading="lazy"
           width="600" height="600">
       {%- endif -%}
+
       {%- if product.tags contains 'bestseller' -%}
         <span class="product-card__badge product-card__badge--bestseller">Mas vendido</span>
       {%- elsif product.tags contains 'nuevo' -%}
         <span class="product-card__badge">Nuevo</span>
       {%- endif -%}
+
       <div class="product-card__overlay">
         <button
           class="product-card__btn"
@@ -24,6 +34,7 @@
           Anadir al carrito
         </button>
       </div>
+
     </div>
     <div class="product-card__body">
       {%- assign gender = '' -%}
@@ -38,7 +49,7 @@
       {%- endif -%}
       <div class="product-card__footer">
         <span class="product-card__price">{{ product.price | money }}</span>
-        <span class="product-card__shipping">&#10003; Envio gratis</span>
+        <span class="product-card__stars" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
       </div>
     </div>
   </a>
