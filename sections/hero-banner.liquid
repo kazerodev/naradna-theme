@@ -1,9 +1,6 @@
 {%- assign hero_image = section.settings.image -%}
-{%- if hero_image == blank and collections['para-el'] != blank -%}
-  {%- assign hero_image = collections['para-el'].products.first.featured_image -%}
-{%- endif -%}
 
-<section class="hero" aria-label="{{ section.settings.heading | escape }}">
+<section class="hero{% if hero_image == blank %} hero--gradient{% endif %}" aria-label="{{ section.settings.heading | escape }}">
   {%- if hero_image != blank -%}
     <img
       class="hero__bg"
