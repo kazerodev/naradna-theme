@@ -681,17 +681,37 @@
     });
 
     // ---- SHIPPING COUNTDOWN ----
+    // Múltiples cortes al día → el timer nunca muestra menos de ~15 min
     var countEl = document.getElementById('ship-countdown');
     if (countEl) {
+      var CUTOFF_HOURS = [9, 13, 17, 21]; // 4 cortes diarios
+      var MIN_MINUTES = 15; // si quedan menos, salta al siguiente corte
+
       function pad(n) { return String(n).padStart(2, '0'); }
-      function tick() {
-        var now = new Date(), cutoff = new Date();
-        cutoff.setHours(17, 0, 0, 0);
-        if (now >= cutoff) cutoff.setDate(cutoff.getDate() + 1);
-        var d = cutoff - now;
-        countEl.textContent = pad(Math.floor(d / 3600000)) + ':' + pad(Math.floor((d % 3600000) / 60000)) + ':' + pad(Math.floor((d % 60000) / 1000));
+
+      function getNextCutoff() {
+        var now = new Date();
+        for (var i = 0; i < CUTOFF_HOURS.length; i++) {
+          var c = new Date();
+          c.setHours(CUTOFF_HOURS[i], 0, 0, 0);
+          if ((c - now) > MIN_MINUTES * 60 * 1000) return c;
+        }
+        // Todos pasados → primer corte del día siguiente
+        var next = new Date();
+        next.setDate(next.getDate() + 1);
+        next.setHours(CUTOFF_HOURS[0], 0, 0, 0);
+        return next;
       }
-      tick(); setInterval(tick, 1000);
+
+      function tickCountdown() {
+        var d = getNextCutoff() - new Date();
+        if (d < 0) d = 0;
+        var h = Math.floor(d / 3600000);
+        var m = Math.floor((d % 3600000) / 60000);
+        var s = Math.floor((d % 60000) / 1000);
+        countEl.textContent = pad(h) + ':' + pad(m) + ':' + pad(s);
+      }
+      tickCountdown(); setInterval(tickCountdown, 1000);
     }
 
     // ---- LIVE VIEWERS ----
