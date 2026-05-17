@@ -745,6 +745,26 @@
         .observe(document.body, { childList: true, subtree: true });
     }
 
+    // ---- ACCORDION ----
+    document.querySelectorAll('.accordion-btn').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        var item = this.closest('.accordion-item');
+        var body = item.querySelector('.accordion-body');
+        var isOpen = item.classList.contains('open');
+        // cierra todos
+        document.querySelectorAll('.accordion-item.open').forEach(function(el) {
+          el.classList.remove('open');
+          el.querySelector('.accordion-body').style.display = 'none';
+          el.querySelector('.accordion-btn').setAttribute('aria-expanded', 'false');
+        });
+        if (!isOpen) {
+          item.classList.add('open');
+          body.style.display = 'block';
+          btn.setAttribute('aria-expanded', 'true');
+        }
+      });
+    });
+
   }); // end DOMContentLoaded
 
 })();

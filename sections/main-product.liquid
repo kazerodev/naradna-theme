@@ -1,4 +1,5 @@
 {%- assign current_variant = product.selected_or_first_available_variant -%}
+{%- assign intensidad = section.settings.intensidad | default: 3 -%}
 
 <article class="product-page" itemscope itemtype="https://schema.org/Product">
   <meta itemprop="name" content="{{ product.title | escape }}">
@@ -80,7 +81,23 @@
 
       <div class="product-info__price-row">
         <span class="product-info__price" itemprop="price">{{ current_variant.price | money }}</span>
+        <!-- CHIP DE VOLUMEN -->
+        <span class="product-vol-chip" aria-label="Formato 30 ml Eau de Parfum">
+          <svg width="11" height="14" viewBox="0 0 11 14" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M4 1h3M3.5 1v2.5C2 4.2 1 5.7 1 7.5A4.5 4.5 0 0 0 10 7.5c0-1.8-1-3.3-2.5-4V1"/><rect x="3" y="4" width="5" height="1" rx=".5" fill="currentColor" stroke="none"/></svg>
+          30 ml &middot; EDP
+        </span>
         <span class="product-info__shipping-tag">&#10003; Envio gratis</span>
+      </div>
+
+      <!-- BARRA DE INTENSIDAD -->
+      <div class="intensity-wrapper" aria-label="Intensidad {{ intensidad }} de 5">
+        <span class="intensity-label">Intensidad</span>
+        <div class="intensity-bar" role="img" aria-label="{{ intensidad }} de 5 segmentos">
+          {%- for i in (1..5) -%}
+            <div class="intensity-bar__seg{% if i <= intensidad %} intensity-bar__seg--active{% endif %}"></div>
+          {%- endfor -%}
+        </div>
+        <span class="intensity-level">{{ intensidad }}/5</span>
       </div>
 
       <div class="product-info__viewers">
@@ -100,6 +117,46 @@
       <div class="product-info__description" itemprop="description">
         {{ product.description }}
       </div>
+
+      <!-- NOTAS OLFATIVAS -->
+      {%- assign has_notas = false -%}
+      {%- if section.settings.notas_salida != blank or section.settings.notas_corazon != blank or section.settings.notas_fondo != blank -%}
+        {%- assign has_notas = true -%}
+      {%- endif -%}
+      {%- if has_notas -%}
+      <div class="product-notes">
+        <button class="product-notes__toggle" aria-expanded="false" aria-controls="product-notes-body" type="button">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 2a7 7 0 0 1 7 7c0 4-4 9-7 13C9 18 5 13 5 9a7 7 0 0 1 7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+          Notas olfativas
+          <svg class="product-notes__chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="product-notes__body" id="product-notes-body" hidden>
+          <div class="product-notes__grid">
+            {%- if section.settings.notas_salida != blank -%}
+            <div class="product-note">
+              <span class="product-note__tier">Salida</span>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 8v4m0 4h.01"/></svg>
+              <p class="product-note__text">{{ section.settings.notas_salida }}</p>
+            </div>
+            {%- endif -%}
+            {%- if section.settings.notas_corazon != blank -%}
+            <div class="product-note">
+              <span class="product-note__tier">Corazon</span>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"/></svg>
+              <p class="product-note__text">{{ section.settings.notas_corazon }}</p>
+            </div>
+            {%- endif -%}
+            {%- if section.settings.notas_fondo != blank -%}
+            <div class="product-note">
+              <span class="product-note__tier">Fondo</span>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32l1.41 1.41M2 12h2m16 0h2M4.93 19.07l1.41-1.41M18.66 5.34l1.41-1.41"/></svg>
+              <p class="product-note__text">{{ section.settings.notas_fondo }}</p>
+            </div>
+            {%- endif -%}
+          </div>
+        </div>
+      </div>
+      {%- endif -%}
 
       <form class="product-form" action="/cart/add" method="post" enctype="multipart/form-data" novalidate>
         <input type="hidden" name="id" value="{{ current_variant.id }}">
@@ -124,23 +181,50 @@
         {%- endif -%}
       </form>
 
-      <!-- TRUST BADGES -->
-      <div class="product-trust">
-        <div class="product-trust-item">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="1" y="3" width="15" height="13"></rect><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon><circle cx="5.5" cy="18.5" r="2.5"></circle><circle cx="18.5" cy="18.5" r="2.5"></circle></svg>
-          <div><strong>Envio gratis</strong><br><small>En todos los pedidos</small></div>
+      <!-- TRUST CARDS -->
+      <div class="trust-cards" role="list">
+        <div class="trust-card" role="listitem">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="1" y="3" width="15" height="13"></rect><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon><circle cx="5.5" cy="18.5" r="2.5"></circle><circle cx="18.5" cy="18.5" r="2.5"></circle></svg>
+          <strong>Envio gratis</strong>
+          <small>En todos los pedidos</small>
         </div>
-        <div class="product-trust-item">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
-          <div><strong>Pago seguro</strong><br><small>100% cifrado y protegido</small></div>
+        <div class="trust-card" role="listitem">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+          <strong>Pago seguro</strong>
+          <small>100% cifrado y protegido</small>
         </div>
-        <div class="product-trust-item">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="23 4 23 10 17 10"></polyline><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path></svg>
-          <div><strong>30 dias</strong><br><small>Devolucion sin preguntas</small></div>
+        <div class="trust-card" role="listitem">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><polyline points="23 4 23 10 17 10"></polyline><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path></svg>
+          <strong>30 dias</strong>
+          <small>Devolucion sin preguntas</small>
         </div>
-        <div class="product-trust-item">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
-          <div><strong>Calidad real</strong><br><small>Ingredientes de primera</small></div>
+        <div class="trust-card" role="listitem">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+          <strong>Calidad real</strong>
+          <small>Ingredientes de primera</small>
+        </div>
+      </div>
+
+      <!-- ACCORDION -->
+      <div class="product-accordion">
+        <div class="accordion-item">
+          <button class="accordion-btn" type="button" aria-expanded="false">
+            ¿Como aplicarlo?
+          </button>
+          <div class="accordion-body" style="display:none;">
+            <p>Para aprovechar al maximo tu fragancia, aplica el perfume en los puntos de pulso: munecas, cuello, detras de las orejas y en el doblez de los codos. Estos puntos generan calor natural que potencia la proyeccion del aroma.</p>
+            <p>Mantén el frasco a unos 15&ndash;20 cm de la piel y aplica 2&ndash;3 pulsaciones. Evita frotar las munecas entre si tras la aplicacion, ya que esto rompe las moleculas aromaticas. Para mayor duracion, hidrata la piel antes con una crema sin fragancia.</p>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <button class="accordion-btn" type="button" aria-expanded="false">
+            Envio y devoluciones
+          </button>
+          <div class="accordion-body" style="display:none;">
+            <p><strong>Envio gratuito</strong> en todos los pedidos, sin minimo de compra. Procesamos y enviamos tu pedido en 1&ndash;2 dias habiles desde la confirmacion del pago.</p>
+            <p>Si por cualquier motivo no estas satisfecho/a, tienes <strong>30 dias</strong> naturales desde la recepcion para solicitar una devolucion sin necesidad de justificacion. El reembolso se realiza en el mismo metodo de pago original en un plazo de 5&ndash;7 dias habiles.</p>
+            <p>Para iniciar una devolucion, contacta con nosotros a traves de nuestra pagina de contacto o por correo electronico.</p>
+          </div>
         </div>
       </div>
 
@@ -183,8 +267,58 @@
 </section>
 {%- endif -%}
 
+<script>
+  // Notes toggle
+  (function() {
+    var toggle = document.querySelector('.product-notes__toggle');
+    if (!toggle) return;
+    var body = document.getElementById('product-notes-body');
+    toggle.addEventListener('click', function() {
+      var open = !body.hasAttribute('hidden');
+      if (open) {
+        body.setAttribute('hidden', '');
+        toggle.setAttribute('aria-expanded', 'false');
+        toggle.classList.remove('open');
+      } else {
+        body.removeAttribute('hidden');
+        toggle.setAttribute('aria-expanded', 'true');
+        toggle.classList.add('open');
+      }
+    });
+  })();
+</script>
+
 {% schema %}
 {
-  "name": "Pagina de producto"
+  "name": "Pagina de producto",
+  "settings": [
+    {
+      "type": "range",
+      "id": "intensidad",
+      "label": "Intensidad",
+      "min": 1,
+      "max": 5,
+      "step": 1,
+      "default": 3
+    },
+    {
+      "type": "text",
+      "id": "notas_salida",
+      "label": "Notas de salida",
+      "default": ""
+    },
+    {
+      "type": "text",
+      "id": "notas_corazon",
+      "label": "Notas de corazon",
+      "default": ""
+    },
+    {
+      "type": "text",
+      "id": "notas_fondo",
+      "label": "Notas de fondo",
+      "default": ""
+    }
+  ]
 }
 {% endschema %}
