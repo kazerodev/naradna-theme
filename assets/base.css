@@ -1414,6 +1414,14 @@ body { animation: pageFadeIn 0.45s ease both; }
 .trust-section { background: #0d0b07; }
 .trust-item__title { letter-spacing: 1px; }
 
+/* ---- TRUST GRID 3 COLS ---- */
+.trust-grid--3 { grid-template-columns: repeat(3, 1fr); }
+@media (max-width: 640px) { .trust-grid--3 { grid-template-columns: repeat(3, 1fr); gap: 16px 8px; } }
+
+/* ---- TRUST CARDS 3 COLS ---- */
+.trust-cards--3 { grid-template-columns: repeat(3, 1fr); }
+@media (max-width: 480px) { .trust-cards--3 { grid-template-columns: repeat(3, 1fr); } }
+
 /* ---- CART TOAST REFINE ---- */
 .cart-toast { border-radius: 8px; }
 
