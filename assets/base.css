@@ -128,9 +128,9 @@ button { font-family: inherit; -webkit-tap-highlight-color: transparent; }
 .section__subtitle { font-size: 14px; color: var(--color-muted); margin-top: 12px; max-width: 460px; margin-left: auto; margin-right: auto; line-height: 1.75; }
 
 /* ---- PRODUCT GRID ---- */
-.product-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
-@media (min-width: 480px) { .product-grid { gap: 16px; } }
-@media (min-width: 768px) { .product-grid { grid-template-columns: repeat(3, 1fr); gap: 24px; } }
+.product-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+@media (min-width: 480px) { .product-grid { gap: 20px; } }
+@media (min-width: 768px) { .product-grid { grid-template-columns: repeat(3, 1fr); gap: 28px; } }
 @media (min-width: 1024px) { .product-grid { grid-template-columns: repeat(4, 1fr); } }
 
 /* ---- PRODUCT CARD ---- */
@@ -261,10 +261,8 @@ button { font-family: inherit; -webkit-tap-highlight-color: transparent; }
 .collection-header__title { font-family: var(--font-heading); font-size: clamp(26px, 5vw, 48px); color: var(--color-primary); margin-bottom: 8px; }
 .collection-header__desc { color: var(--color-muted); margin-bottom: 8px; font-size: 14px; }
 .collection-header__count { font-size: 12px; color: var(--color-muted); }
-.collection-filters { display: flex; gap: 8px; margin-bottom: 32px; flex-wrap: wrap; overflow-x: auto; padding-bottom: 4px; }
-.filter-btn { background: transparent; border: 1px solid var(--color-border); padding: 8px 18px; font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; cursor: pointer; border-radius: 20px; transition: all var(--transition); color: var(--color-muted); white-space: nowrap; flex-shrink: 0; touch-action: manipulation; }
-.filter-btn:hover { border-color: var(--color-primary); color: var(--color-primary); }
-.filter-btn.active { background: var(--color-primary); color: #fff; border-color: var(--color-primary); }
+.collection-main { padding-bottom: 80px; }
+@media (min-width: 768px) { .collection-main { padding-bottom: 110px; } }
 
 /* ---- PRODUCT PAGE ---- */
 .product-page { padding: 32px 0 72px; }
