@@ -1,0 +1,53 @@
+<div class="legal-header">
+  <div class="container">
+    <nav class="legal-header__breadcrumb" aria-label="Migas de pan">
+      <a href="/">Inicio</a> <span aria-hidden="true">/</span> <span>Aviso Legal</span>
+    </nav>
+    <h1 class="legal-header__title">Aviso Legal</h1>
+  </div>
+</div>
+
+<div class="container">
+  <a class="legal-back" href="/">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg>
+    Volver
+  </a>
+  <div class="legal-body">
+
+    <h2>1. Datos identificativos</h2>
+    <p>En cumplimiento del artículo 10 de la Ley 34/2002, de 11 de julio, de Servicios de la Sociedad de la Información y del Comercio Electrónico (LSSICE), se informa de los siguientes datos identificativos del titular de este sitio web:</p>
+    <table>
+      <tbody>
+        <tr><th>Denominación social</th><td>[NOMBRE_EMPRESA]</td></tr>
+        <tr><th>CIF/NIF</th><td>[CIF]</td></tr>
+        <tr><th>Domicilio social</th><td>[DIRECCION], España</td></tr>
+        <tr><th>Correo electrónico</th><td><a href="mailto:[EMAIL]">[EMAIL]</a></td></tr>
+        <tr><th>Sitio web</th><td>{{ shop.url }}</td></tr>
+      </tbody>
+    </table>
+
+    <h2>2. Objeto y aceptación de las condiciones de uso</h2>
+    <p>El presente Aviso Legal regula el acceso y uso del sitio web <strong>{{ shop.url }}</strong> (en adelante, el "Sitio Web"), titularidad de [NOMBRE_EMPRESA], así como los servicios y contenidos puestos a disposición de los usuarios a través del mismo.</p>
+    <p>El acceso y uso del Sitio Web atribuye la condición de usuario (en adelante, el "Usuario") e implica la aceptación plena y sin reservas de todas las disposiciones incluidas en este Aviso Legal. Si el Usuario no está de acuerdo con cualquiera de los términos aquí establecidos, deberá abstenerse de acceder y utilizar el Sitio Web.</p>
+    <p>[NOMBRE_EMPRESA] se reserva el derecho a modificar en cualquier momento las presentes condiciones, así como cualesquiera otras condiciones, reglamentos o avisos que aquí aparezcan. Dichas modificaciones entrarán en vigor desde el momento de su publicación en el Sitio Web.</p>
+
+    <h2>3. Propiedad intelectual e industrial</h2>
+    <p>Todos los contenidos del Sitio Web, incluyendo sin carácter limitativo textos, fotografías, gráficos, imágenes, logotipos, iconos, software, nombres comerciales, marcas y signos distintivos, son propiedad de [NOMBRE_EMPRESA] o de terceros que han autorizado su uso, y están protegidos por la normativa española e internacional sobre propiedad intelectual e industrial.</p>
+    <p>Queda expresamente prohibida la reproducción, distribución, comunicación pública, transformación o cualquier otra forma de explotación, total o parcial, de los contenidos de este Sitio Web sin la autorización expresa y por escrito de [NOMBRE_EMPRESA]. Cualquier uso no autorizado será considerado un incumplimiento grave de los derechos de propiedad intelectual o industrial del titular.</p>
+    <p>El Usuario se compromete a respetar los derechos de Propiedad Intelectual e Industrial titularidad de [NOMBRE_EMPRESA]. Podrá visualizar los elementos del portal e incluso imprimirlos, copiarlos y almacenarlos en el disco duro de su ordenador o en cualquier otro soporte físico siempre y cuando sea, única y exclusivamente, para su uso personal y privado.</p>
+
+    <h2>4. Responsabilidad</h2>
+    <h3>4.1 Disponibilidad del servicio</h3>
+    <p>[NOMBRE_EMPRESA] no garantiza la disponibilidad ininterrumpida del Sitio Web. Se reserva el derecho a interrumpir, suspender o cancelar el acceso al Sitio Web en cualquier momento sin previo aviso, sin que ello genere derecho a indemnización alguna.</p>
+    <h3>4.2 Contenidos de terceros y enlaces</h3>
+    <p>El Sitio Web puede contener enlaces a sitios web de terceros. [NOMBRE_EMPRESA] no ejerce ningún control sobre dichos sitios ni sobre sus contenidos, por lo que no asume ninguna responsabilidad por el contenido, informaciones o servicios que pudieran aparecer en tales sitios, que tendrán exclusivamente carácter informativo y que en ningún caso implican relación, recomendación ni supervisión por parte de [NOMBRE_EMPRESA].</p>
+    <h3>4.3 Virus y seguridad</h3>
+    <p>[NOMBRE_EMPRESA] adopta las medidas de seguridad razonablemente adecuadas para detectar la existencia de virus y elementos dañinos. No obstante, el Usuario debe ser consciente de que las medidas de seguridad de los sistemas informáticos en Internet no son enteramente fiables y que [NOMBRE_EMPRESA] no puede garantizar la ausencia de virus u otros elementos que puedan producir alteraciones en los sistemas informáticos del Usuario.</p>
+
+    <h2>5. Legislación aplicable y jurisdicción competente</h2>
+    <p>Las presentes condiciones se rigen e interpretan conforme a las leyes españolas. Para la resolución de cualquier controversia derivada o relacionada con el presente Aviso Legal, las partes se someten, con renuncia expresa a cualquier otro fuero que pudiera corresponderles, a los Juzgados y Tribunales del domicilio del titular de la tienda, salvo que la normativa aplicable establezca un fuero diferente.</p>
+    <p>Si alguna disposición de este Aviso Legal fuera declarada inválida o inaplicable, las restantes disposiciones continuarán en vigor y efecto.</p>
+    <p>Este aviso legal fue actualizado por última vez en {{ 'now' | date: "%d de %B de %Y" }}.</p>
+
+  </div>
+</div>
