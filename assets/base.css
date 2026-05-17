@@ -5,14 +5,14 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  --color-bg: #fafaf8;
+  --color-bg: #faf5ed;
   --color-primary: #111111;
   --color-accent: #c9a96e;
   --color-accent-dark: #b8935a;
-  --color-text: #333333;
-  --color-muted: #777777;
-  --color-border: #e4e4dc;
-  --color-surface: #ffffff;
+  --color-text: #2c1f0f;
+  --color-muted: #89705a;
+  --color-border: #e6d5c3;
+  --color-surface: #fffdf8;
   --color-success: #2e7d32;
   --color-warning: #e65c00;
   --font-body: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
@@ -139,7 +139,7 @@ button { font-family: inherit; -webkit-tap-highlight-color: transparent; }
 .product-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
 @media (hover: none) { .product-card:hover { transform: none; box-shadow: none; } }
 
-.product-card__image-wrap { position: relative; aspect-ratio: 1; overflow: hidden; background: #f3f3ee; }
+.product-card__image-wrap { position: relative; aspect-ratio: 1; overflow: hidden; background: #f2e8db; }
 
 /* Two-image swap on hover */
 .product-card__img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: opacity 0.45s ease, transform 0.45s ease; }
@@ -216,7 +216,7 @@ button { font-family: inherit; -webkit-tap-highlight-color: transparent; }
 .review-card__meta { font-size: 11px; color: var(--color-muted); }
 
 /* ---- NEWSLETTER ---- */
-.newsletter-section { background: #161616; text-align: center; padding: 72px 0; }
+.newsletter-section { background: #1c1208; text-align: center; padding: 72px 0; }
 .newsletter-section .section__eyebrow { color: var(--color-accent); }
 .newsletter-section .section__title { color: #fff; }
 .newsletter-section .section__subtitle { color: rgba(255,255,255,0.5); }
@@ -233,7 +233,7 @@ button { font-family: inherit; -webkit-tap-highlight-color: transparent; }
 }
 
 /* ---- FOOTER ---- */
-.site-footer { background: #0d0d0d; color: rgba(255,255,255,0.6); }
+.site-footer { background: #140e08; color: rgba(255,255,255,0.6); }
 .footer__top { padding: 56px 0 44px; display: grid; gap: 36px; }
 @media (min-width: 640px) { .footer__top { grid-template-columns: 1fr 1fr; } }
 @media (min-width: 900px) { .footer__top { grid-template-columns: 2fr 1fr 1fr; gap: 56px; } }
@@ -252,7 +252,7 @@ button { font-family: inherit; -webkit-tap-highlight-color: transparent; }
 .footer__legal-links a { font-size: 10px; color: rgba(255,255,255,0.28); text-transform: uppercase; letter-spacing: 1px; transition: color var(--transition); }
 .footer__legal-links a:hover { color: rgba(255,255,255,0.65); }
 .footer__payments-row { padding: 16px 0 24px; border-top: 1px solid rgba(255,255,255,0.04); }
-.footer__payments { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+.footer__payments { display: flex; align-items: center; justify-content: center; gap: 6px; flex-wrap: wrap; }
 .footer__payment-badge { background: rgba(255,255,255,0.07); color: rgba(255,255,255,0.45); font-size: 9px; font-weight: 700; letter-spacing: 1px; padding: 4px 8px; border-radius: 3px; text-transform: uppercase; }
 @media (min-width: 900px) { .footer__top { grid-template-columns: 2fr 1fr 1fr 1fr; } }
 
@@ -360,7 +360,7 @@ button { font-family: inherit; -webkit-tap-highlight-color: transparent; }
 }
 
 /* ---- RELATED ---- */
-.related-section { padding: 56px 0; background: #f3f3ee; }
+.related-section { padding: 56px 0; background: #f2e8db; }
 
 /* ---- CART DRAWER ---- */
 .cart-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 250; backdrop-filter: blur(2px); -webkit-backdrop-filter: blur(2px); }
@@ -409,7 +409,7 @@ button { font-family: inherit; -webkit-tap-highlight-color: transparent; }
 .page__body.rte strong { color: var(--color-primary); }
 .page__body.rte table { width: 100%; border-collapse: collapse; margin-bottom: 20px; font-size: 14px; }
 .page__body.rte th, .page__body.rte td { padding: 10px 14px; border: 1px solid var(--color-border); text-align: left; }
-.page__body.rte th { background: #f4f4f0; font-weight: 700; color: var(--color-primary); }
+.page__body.rte th { background: #f4ece3; font-weight: 700; color: var(--color-primary); }
 .page-content { max-width: 780px; margin: 0 auto; padding: 52px 16px 72px; }
 .page-content h1 { font-family: var(--font-heading); font-size: 36px; margin-bottom: 24px; color: var(--color-primary); }
 .page-content p { color: var(--color-muted); line-height: 1.9; margin-bottom: 16px; }
@@ -506,7 +506,7 @@ button { font-family: inherit; -webkit-tap-highlight-color: transparent; }
 .header__cart-count.bounce { animation: cartBounce 0.42s ease; }
 
 /* Image loading skeleton */
-.product-card__image-wrap { background: linear-gradient(90deg, #f3f3ee 25%, #eaeae5 50%, #f3f3ee 75%); background-size: 200% 100%; animation: bgShimmer 1.8s ease infinite; }
+.product-card__image-wrap { background: linear-gradient(90deg, #f2e8db 25%, #e8ddd0 50%, #f2e8db 75%); background-size: 200% 100%; animation: bgShimmer 1.8s ease infinite; }
 
 /* Fade in product cards */
 .product-card { animation: fadeIn 0.4s ease both; }
@@ -551,10 +551,10 @@ button { font-family: inherit; -webkit-tap-highlight-color: transparent; }
 .product-card:hover .product-card__bottom-line { transform: scaleX(1); }
 
 /* Card body */
-.product-card__footer { flex-direction: column; align-items: flex-start; gap: 4px; }
-.product-card__free-ship { font-size: 10px; color: var(--color-success); font-weight: 700; }
-.product-card__stars-sm { color: var(--color-accent); font-size: 10px; letter-spacing: 1px; align-self: flex-end; }
 .product-card__footer { display: flex; flex-direction: row; align-items: flex-end; justify-content: space-between; gap: 6px; }
+.product-card__footer > div { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.product-card__free-ship { font-size: 10px; color: var(--color-success); font-weight: 700; white-space: nowrap; }
+.product-card__stars-sm { color: var(--color-accent); font-size: 10px; letter-spacing: 1px; align-self: flex-end; flex-shrink: 0; }
 
 /* ---- HERO PARTICLES ---- */
 @keyframes particleRise { 0% { transform: translateY(0) scale(0); opacity: 0; } 8% { opacity: 0.9; transform: translateY(-8px) scale(1); } 85% { opacity: 0.5; } 100% { transform: translateY(-95vh) scale(0.2); opacity: 0; } }
