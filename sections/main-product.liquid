@@ -15,7 +15,7 @@
         <div class="swiper-wrapper">
           {%- for image in product.images -%}
             <div class="swiper-slide">
-              <div class="product-gallery__slide">
+              <div class="product-gallery__slide" role="button" tabindex="0" aria-label="Ampliar imagen" data-full="{{ image | image_url: width: 1800 }}">
                 <img
                   src="{{ image | image_url: width: 1000 }}"
                   alt="{{ image.alt | default: product.title | escape }}"
@@ -83,8 +83,18 @@
         <span class="product-info__shipping-tag">&#10003; Envio gratis</span>
       </div>
 
+      <div class="product-info__viewers">
+        <span class="viewers-dot"></span>
+        <span id="viewers-count">8</span> personas ven esto ahora
+      </div>
+
       <div class="product-info__urgency" role="alert" aria-live="polite">
         <span class="urgency-dot"></span> Quedan pocas unidades &mdash; pide el tuyo antes
+      </div>
+
+      <div class="product-info__countdown">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+        Pide en las proximas <strong id="ship-countdown">--:--:--</strong> y lo recibes manana
       </div>
 
       <div class="product-info__description" itemprop="description">

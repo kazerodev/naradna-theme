@@ -26,13 +26,16 @@
       {%- endif -%}
 
       <div class="product-card__overlay">
-        <button
-          class="product-card__btn"
-          data-variant-id="{{ first_variant.id }}"
-          data-url="{{ product.url }}"
-          onclick="event.preventDefault()">
-          Anadir al carrito
-        </button>
+        <div class="product-card__overlay-inner">
+          <div class="product-card__overlay-stars" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+          <button
+            class="product-card__btn"
+            data-variant-id="{{ first_variant.id }}"
+            data-url="{{ product.url }}"
+            onclick="event.preventDefault()">
+            Anadir al carrito
+          </button>
+        </div>
       </div>
 
     </div>
@@ -48,9 +51,13 @@
         <p class="product-card__tagline">{{ product.metafields.custom.tagline }}</p>
       {%- endif -%}
       <div class="product-card__footer">
-        <span class="product-card__price">{{ product.price | money }}</span>
-        <span class="product-card__stars" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+        <div>
+          <span class="product-card__price">{{ product.price | money }}</span>
+          <span class="product-card__free-ship">&#10003; Envio gratis</span>
+        </div>
+        <span class="product-card__stars-sm" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
       </div>
     </div>
+    <div class="product-card__bottom-line"></div>
   </a>
 </div>

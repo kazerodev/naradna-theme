@@ -498,3 +498,77 @@ button { font-family: inherit; -webkit-tap-highlight-color: transparent; }
 .product-card:nth-child(6) { animation-delay: 0.3s; }
 .product-card:nth-child(7) { animation-delay: 0.36s; }
 .product-card:nth-child(8) { animation-delay: 0.42s; }
+
+/* =============================================
+   PRODUCT CARD — ENHANCED
+   ============================================= */
+
+/* 3D tilt — border removed, shadow only */
+.product-card { border: none; border-radius: 10px; box-shadow: 0 2px 14px rgba(0,0,0,0.07); will-change: transform; transform-style: preserve-3d; }
+.product-card:hover { transform: translateY(-6px) !important; box-shadow: 0 24px 64px rgba(0,0,0,0.14), 0 0 0 1px rgba(201,169,110,0.12); }
+@media (hover: hover) { .product-card.is-tilting:hover { transform: none !important; } }
+
+/* Image wrap — no shimmer once loaded */
+.product-card__image-wrap { border-radius: 10px 10px 0 0; }
+
+/* Improved overlay — gradient + centered content */
+.product-card__overlay { background: linear-gradient(to top, rgba(0,0,0,0) 0%, rgba(0,0,0,0) 100%); display: flex; align-items: flex-end; justify-content: center; padding-bottom: 18px; transition: background 0.35s ease; }
+.product-card:hover .product-card__overlay { background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.08) 65%); }
+
+.product-card__overlay-inner { display: flex; flex-direction: column; align-items: center; gap: 10px; transform: translateY(14px); opacity: 0; transition: transform 0.35s ease, opacity 0.3s ease; }
+.product-card:hover .product-card__overlay-inner { transform: translateY(0); opacity: 1; }
+
+.product-card__overlay-stars { color: var(--color-accent); font-size: 13px; letter-spacing: 2px; }
+
+/* Button stays at bottom */
+.product-card__btn { transform: none; opacity: 1; }
+@media (hover: hover) {
+  .product-card__btn { opacity: 0; transform: translateY(8px); }
+  .product-card:hover .product-card__btn { opacity: 1; transform: translateY(0); }
+}
+
+/* Bottom accent line */
+.product-card__bottom-line { height: 2px; background: linear-gradient(90deg, transparent, var(--color-accent), transparent); transform: scaleX(0); transition: transform 0.4s ease; }
+.product-card:hover .product-card__bottom-line { transform: scaleX(1); }
+
+/* Card body */
+.product-card__footer { flex-direction: column; align-items: flex-start; gap: 4px; }
+.product-card__free-ship { font-size: 10px; color: var(--color-success); font-weight: 700; }
+.product-card__stars-sm { color: var(--color-accent); font-size: 10px; letter-spacing: 1px; align-self: flex-end; }
+.product-card__footer { display: flex; flex-direction: row; align-items: flex-end; justify-content: space-between; gap: 6px; }
+
+/* ---- HERO PARTICLES ---- */
+@keyframes particleRise { 0% { transform: translateY(0) scale(0); opacity: 0; } 8% { opacity: 0.9; transform: translateY(-8px) scale(1); } 85% { opacity: 0.5; } 100% { transform: translateY(-95vh) scale(0.2); opacity: 0; } }
+.hero__particles { position: absolute; inset: 0; pointer-events: none; overflow: hidden; z-index: 1; }
+.hero__particle { position: absolute; width: 2px; height: 2px; background: var(--color-accent); border-radius: 50%; animation: particleRise linear infinite; opacity: 0; }
+
+/* ---- PRODUCT PAGE EXTRAS ---- */
+.product-info__viewers { display: flex; align-items: center; gap: 7px; font-size: 12px; color: var(--color-muted); margin-bottom: 14px; animation: fadeUp 0.4s ease 0.12s both; }
+.viewers-dot { width: 7px; height: 7px; background: #22c55e; border-radius: 50%; animation: viewerPulse 2s ease infinite; flex-shrink: 0; }
+@keyframes viewerPulse { 0%,100% { opacity: 1; box-shadow: 0 0 0 0 rgba(34,197,94,0.4); } 50% { opacity: 0.7; box-shadow: 0 0 0 5px rgba(34,197,94,0); } }
+
+.product-info__countdown { display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--color-muted); background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: var(--radius); padding: 10px 14px; margin-bottom: 16px; animation: fadeUp 0.4s ease 0.18s both; }
+.product-info__countdown strong { color: #16a34a; font-size: 14px; font-variant-numeric: tabular-nums; letter-spacing: 0.5px; }
+.product-info__countdown svg { color: #16a34a; flex-shrink: 0; }
+
+/* Description expand */
+.product-info__description.is-truncated { max-height: 110px; overflow: hidden; position: relative; }
+.product-info__description.is-truncated::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 44px; background: linear-gradient(to bottom, transparent, var(--color-bg)); pointer-events: none; }
+.desc-expand-btn { display: none; background: none; border: none; color: var(--color-accent); font-size: 13px; font-weight: 700; cursor: pointer; padding: 2px 0 16px; letter-spacing: 0.5px; }
+.desc-expand-btn:hover { color: var(--color-accent-dark); }
+@media (max-width: 767px) { .desc-expand-btn { display: block; } }
+
+/* Gallery cursor zoom */
+.product-gallery-swiper { cursor: zoom-in; }
+.product-gallery__slide img { pointer-events: none; }
+
+/* ---- LIGHTBOX ---- */
+.lightbox { position: fixed; inset: 0; z-index: 800; display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.3s ease; }
+.lightbox.open { opacity: 1; pointer-events: all; }
+.lightbox__backdrop { position: absolute; inset: 0; background: rgba(0,0,0,0.92); cursor: zoom-out; }
+.lightbox__content { position: relative; z-index: 1; max-width: 92vw; max-height: 92vh; display: flex; align-items: center; justify-content: center; transform: scale(0.92); transition: transform 0.3s ease; }
+.lightbox.open .lightbox__content { transform: scale(1); }
+.lightbox__img { max-width: 100%; max-height: 90vh; object-fit: contain; border-radius: var(--radius); display: block; box-shadow: 0 32px 80px rgba(0,0,0,0.5); }
+.lightbox__close { position: absolute; top: -20px; right: -20px; width: 40px; height: 40px; background: #fff; border: none; border-radius: 50%; font-size: 16px; cursor: pointer; display: flex; align-items: center; justify-content: center; color: var(--color-primary); box-shadow: var(--shadow-md); transition: background var(--transition), transform var(--transition); z-index: 2; }
+.lightbox__close:hover { background: #f5f5f0; transform: scale(1.1); }
+@media (max-width: 640px) { .lightbox__close { top: -14px; right: -8px; width: 34px; height: 34px; font-size: 14px; } }
