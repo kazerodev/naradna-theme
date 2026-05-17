@@ -591,3 +591,217 @@ button { font-family: inherit; -webkit-tap-highlight-color: transparent; }
 .lightbox__close { position: absolute; top: -20px; right: -20px; width: 40px; height: 40px; background: #fff; border: none; border-radius: 50%; font-size: 16px; cursor: pointer; display: flex; align-items: center; justify-content: center; color: var(--color-primary); box-shadow: var(--shadow-md); transition: background var(--transition), transform var(--transition); z-index: 2; }
 .lightbox__close:hover { background: #f5f5f0; transform: scale(1.1); }
 @media (max-width: 640px) { .lightbox__close { top: -14px; right: -8px; width: 34px; height: 34px; font-size: 14px; } }
+
+/* =============================================
+   NARADNA ENHANCED EFFECTS v2
+   ============================================= */
+
+/* ---- CURSOR ORB (ambient light) ---- */
+.cursor-orb {
+  position: fixed; pointer-events: none; z-index: 0;
+  width: 520px; height: 520px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(201,169,110,0.055) 0%, transparent 70%);
+  transform: translate(-50%, -50%);
+  transition: left 0.9s cubic-bezier(0.2, 0, 0.3, 1), top 0.9s cubic-bezier(0.2, 0, 0.3, 1);
+  will-change: left, top;
+}
+
+/* ---- CUSTOM CURSOR ---- */
+@media (hover: hover) and (pointer: fine) {
+  html, html * { cursor: none !important; }
+}
+.cursor-dot {
+  position: fixed; z-index: 9995; pointer-events: none;
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--color-accent);
+  transform: translate(-50%, -50%);
+  transition: transform 0.15s ease,
+    width 0.3s cubic-bezier(0.16,1,0.3,1),
+    height 0.3s cubic-bezier(0.16,1,0.3,1),
+    background 0.3s ease, opacity 0.3s ease;
+  will-change: left, top;
+}
+.cursor-ring {
+  position: fixed; z-index: 9994; pointer-events: none;
+  width: 42px; height: 42px; border-radius: 50%;
+  border: 1.5px solid rgba(201,169,110,0.5);
+  transform: translate(-50%, -50%);
+  transition: width 0.38s cubic-bezier(0.16,1,0.3,1),
+    height 0.38s cubic-bezier(0.16,1,0.3,1),
+    border-color 0.38s ease;
+  will-change: left, top;
+}
+.cursor-dot.is-hovering { width: 14px; height: 14px; }
+.cursor-ring.is-hovering { width: 68px; height: 68px; border-color: rgba(201,169,110,0.18); }
+.cursor-dot.is-clicking { transform: translate(-50%, -50%) scale(0.45); opacity: 0.7; }
+.cursor-ring.is-clicking { width: 26px; height: 26px; border-color: rgba(201,169,110,0.9); }
+
+/* ---- RIPPLE ---- */
+.ripple {
+  position: absolute; border-radius: 50%; pointer-events: none;
+  background: rgba(255,255,255,0.22);
+  transform: scale(0);
+  animation: rippleAnim 0.62s linear forwards;
+}
+@keyframes rippleAnim { to { transform: scale(4.5); opacity: 0; } }
+
+/* ---- CARD GLOW ---- */
+.product-card { --gx: 50%; --gy: 50%; }
+.product-card__glow {
+  position: absolute; inset: -1px; border-radius: inherit;
+  background: radial-gradient(circle at var(--gx) var(--gy), rgba(201,169,110,0.22) 0%, transparent 58%);
+  opacity: 0; transition: opacity 0.4s ease;
+  pointer-events: none; z-index: 5;
+}
+.product-card:hover .product-card__glow { opacity: 1; }
+
+/* ---- ANNOUNCEMENT TICKER ---- */
+.announcement-bar { overflow: hidden; position: relative; }
+.announcement-ticker { display: flex; white-space: nowrap; animation: tickerScroll 26s linear infinite; }
+.announcement-ticker span { display: inline-block; padding: 0 0; font-size: 11px; letter-spacing: 1.5px; font-weight: 600; }
+@keyframes tickerScroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+.announcement-bar::after {
+  content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 1px;
+  background: linear-gradient(90deg, transparent 0%, var(--color-accent) 50%, transparent 100%);
+  animation: scanLine 4s ease-in-out infinite;
+}
+@keyframes scanLine {
+  0%   { opacity: 0; transform: scaleX(0); transform-origin: left; }
+  45%  { opacity: 1; transform: scaleX(1); transform-origin: left; }
+  46%  { transform-origin: right; }
+  100% { opacity: 0; transform: scaleX(0); transform-origin: right; }
+}
+
+/* ---- TEXT REVEAL ---- */
+.reveal-text { display: block; overflow: hidden; }
+.reveal-text .reveal-inner {
+  display: block;
+  transform: translateY(106%);
+  opacity: 0;
+  transition: transform 0.9s cubic-bezier(0.16,1,0.3,1), opacity 0.65s ease;
+}
+.reveal-text.is-visible .reveal-inner { transform: translateY(0); opacity: 1; }
+
+/* ---- SCROLL REVEAL ---- */
+[data-reveal] {
+  opacity: 0; transform: translateY(26px);
+  transition: opacity 0.72s cubic-bezier(0.16,1,0.3,1), transform 0.72s cubic-bezier(0.16,1,0.3,1);
+}
+[data-reveal].revealed { opacity: 1; transform: none; }
+[data-reveal][data-reveal-delay="1"] { transition-delay: 0.1s; }
+[data-reveal][data-reveal-delay="2"] { transition-delay: 0.2s; }
+[data-reveal][data-reveal-delay="3"] { transition-delay: 0.32s; }
+
+/* ---- BURST PARTICLES ---- */
+.burst-particle {
+  position: fixed; pointer-events: none; z-index: 9996;
+  border-radius: 50%;
+  animation: burstOut 0.7s cubic-bezier(0.2,0.8,0.4,1) forwards;
+}
+@keyframes burstOut {
+  0%   { transform: translate(-50%,-50%) scale(1.2); opacity: 1; }
+  55%  { opacity: 0.8; }
+  100% { transform: translate(calc(-50% + var(--bx)), calc(-50% + var(--by))) scale(0); opacity: 0; }
+}
+
+/* ---- BUTTON DOTS ANIMATION ---- */
+.btn-dots span { animation: dotBlink 1s ease-in-out infinite; display: inline-block; }
+.btn-dots span:nth-child(2) { animation-delay: 0.18s; }
+.btn-dots span:nth-child(3) { animation-delay: 0.36s; }
+@keyframes dotBlink { 0%,80%,100% { opacity: 0.15; transform: scale(0.85); } 40% { opacity: 1; transform: scale(1); } }
+
+/* ---- ENHANCED BUTTON SHADOWS + LIFT ---- */
+.btn--primary, .add-to-cart-btn, .sticky-atc__btn {
+  box-shadow: 0 4px 18px rgba(0,0,0,0.22);
+  transition: background var(--transition), transform 0.22s cubic-bezier(0.16,1,0.3,1), box-shadow 0.22s ease, color var(--transition);
+}
+.btn--primary:hover:not(:disabled) {
+  box-shadow: 0 10px 40px rgba(17,17,17,0.28), 0 0 0 1px rgba(201,169,110,0.35);
+  transform: translateY(-2px);
+}
+.add-to-cart-btn:hover:not(:disabled) {
+  background: #222;
+  box-shadow: 0 10px 40px rgba(17,17,17,0.28), 0 0 28px rgba(201,169,110,0.1);
+  transform: translateY(-1px);
+}
+.btn--primary:active:not(:disabled), .add-to-cart-btn:active:not(:disabled) {
+  transform: scale(0.98) translateY(0); box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+
+/* ---- FILTER ACTIVE GLOW ---- */
+.filter-btn.active { box-shadow: 0 0 18px rgba(17,17,17,0.2); }
+
+/* ---- GALLERY GLOW ---- */
+.product-gallery-swiper {
+  transition: box-shadow 0.45s ease;
+}
+.product-gallery-swiper:hover {
+  box-shadow: 0 0 60px rgba(201,169,110,0.13), var(--shadow-md);
+}
+
+/* ---- HERO AMBIENT ORBS ---- */
+.hero--gradient::after {
+  content: ''; position: absolute; inset: 0; pointer-events: none; z-index: 0;
+  background:
+    radial-gradient(ellipse 60% 50% at 8% 85%, rgba(201,169,110,0.08) 0%, transparent 55%),
+    radial-gradient(ellipse 25% 40% at 92% 25%, rgba(201,169,110,0.05) 0%, transparent 60%);
+  animation: heroOrbPulse 9s ease-in-out infinite;
+}
+@keyframes heroOrbPulse { 0%,100% { opacity: 0.65; } 50% { opacity: 1; } }
+
+/* ---- EYEBROW GLOW ---- */
+.section__eyebrow { text-shadow: 0 0 18px rgba(201,169,110,0.28); }
+.hero__eyebrow { text-shadow: 0 0 22px rgba(201,169,110,0.4); }
+
+/* ---- NAV LINK LINE ANIMATION ---- */
+@media (min-width: 768px) {
+  .header__nav a {
+    position: relative;
+    border-bottom: none !important;
+  }
+  .header__nav a::after {
+    content: ''; position: absolute;
+    bottom: -3px; left: 50%; right: 50%;
+    height: 1px; background: var(--color-accent);
+    transition: left 0.3s cubic-bezier(0.16,1,0.3,1), right 0.3s cubic-bezier(0.16,1,0.3,1);
+  }
+  .header__nav a:hover::after,
+  .header__nav a.active::after { left: 0; right: 0; }
+}
+
+/* ---- FOOTER PAYMENT BADGE HOVER ---- */
+.footer__payment-badge {
+  transition: all 0.22s cubic-bezier(0.16,1,0.3,1);
+}
+.footer__payment-badge:hover {
+  background: rgba(201,169,110,0.2); color: var(--color-accent);
+  transform: translateY(-3px);
+  box-shadow: 0 4px 14px rgba(201,169,110,0.18);
+}
+
+/* ---- PRODUCT CARD BADGE HOVER ---- */
+.product-card__badge { transition: transform 0.3s cubic-bezier(0.16,1,0.3,1); }
+.product-card:hover .product-card__badge { transform: scale(1.1); }
+
+/* ---- CARD BOTTOM ACCENT LINE (enhanced) ---- */
+.product-card__bottom-line {
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--color-accent) 35%, #e8c87a 60%, transparent);
+  transform: scaleX(0); transition: transform 0.45s cubic-bezier(0.16,1,0.3,1);
+}
+.product-card:hover .product-card__bottom-line { transform: scaleX(1); }
+
+/* ---- MOBILE: disable cursor + reveals ---- */
+@media (max-width: 767px) {
+  .cursor-dot, .cursor-ring, .cursor-orb { display: none !important; }
+  [data-reveal] { opacity: 1 !important; transform: none !important; transition: none !important; }
+  .reveal-text .reveal-inner { transform: none !important; opacity: 1 !important; transition: none !important; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .cursor-dot, .cursor-ring, .cursor-orb { display: none !important; }
+  .announcement-ticker { animation: none; }
+  [data-reveal] { opacity: 1 !important; transform: none !important; }
+  .reveal-text .reveal-inner { transform: none !important; opacity: 1 !important; }
+  .burst-particle { display: none !important; }
+  .hero--gradient::after { animation: none !important; }
+}
