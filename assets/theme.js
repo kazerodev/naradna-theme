@@ -1,9 +1,20 @@
 // NARADNA THEME — theme.js
 
+// ---- TOAST ----
+function showToast(msg) {
+  var toast = document.getElementById('cart-toast');
+  if (!toast) return;
+  var msgEl = toast.querySelector('.cart-toast__msg');
+  if (msgEl && msg) msgEl.textContent = msg;
+  toast.classList.add('show');
+  clearTimeout(toast._timer);
+  toast._timer = setTimeout(function() { toast.classList.remove('show'); }, 2400);
+}
+
 // ---- ADD TO CART (shared) ----
 function addToCartHandler(btn, variantId, qty) {
   if (!variantId) return;
-  const originalHTML = btn.innerHTML;
+  var originalHTML = btn.innerHTML;
   btn.innerHTML = 'Anadiendo...';
   btn.disabled = true;
   fetch('/cart/add.js', {
@@ -11,13 +22,14 @@ function addToCartHandler(btn, variantId, qty) {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ id: variantId, quantity: qty || 1 })
   })
-    .then(r => r.json())
-    .then(() => {
+    .then(function(r) { return r.json(); })
+    .then(function() {
       btn.innerHTML = 'Anadido &#10003;';
-      setTimeout(() => { btn.innerHTML = originalHTML; btn.disabled = false; }, 1800);
-      openCart();
+      showToast('Anadido al carrito');
+      setTimeout(function() { btn.innerHTML = originalHTML; btn.disabled = false; }, 1800);
+      if (typeof openCart === 'function') openCart();
     })
-    .catch(() => { btn.innerHTML = originalHTML; btn.disabled = false; });
+    .catch(function() { btn.innerHTML = originalHTML; btn.disabled = false; });
 }
 
 // ---- CART STATE ----
@@ -27,7 +39,28 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // ---- AOS ----
   if (typeof AOS !== 'undefined') {
-    AOS.init({ duration: 650, once: true, easing: 'ease-out-quad', offset: 50 });
+    AOS.init({ duration: 680, once: true, easing: 'ease-out-quad', offset: 50 });
+  }
+
+  // ---- SCROLL PROGRESS BAR ----
+  var progressBar = document.getElementById('scroll-progress');
+  if (progressBar) {
+    window.addEventListener('scroll', function() {
+      var scrolled = window.scrollY;
+      var total = document.documentElement.scrollHeight - window.innerHeight;
+      progressBar.style.width = (total > 0 ? (scrolled / total) * 100 : 0) + '%';
+    }, { passive: true });
+  }
+
+  // ---- BACK TO TOP ----
+  var backToTop = document.getElementById('back-to-top');
+  if (backToTop) {
+    window.addEventListener('scroll', function() {
+      backToTop.classList.toggle('visible', window.scrollY > 480);
+    }, { passive: true });
+    backToTop.addEventListener('click', function() {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
   }
 
   // ---- SWIPER — Product Gallery ----
@@ -129,8 +162,15 @@ document.addEventListener('DOMContentLoaded', function () {
 
   function updateCartCount(count) {
     document.querySelectorAll('.header__cart-count').forEach(function(el) {
+      var prev = parseInt(el.textContent) || 0;
       el.textContent = count;
       el.style.display = count > 0 ? 'flex' : 'none';
+      if (count > prev) {
+        el.classList.remove('bounce');
+        void el.offsetWidth; // reflow
+        el.classList.add('bounce');
+        setTimeout(function() { el.classList.remove('bounce'); }, 500);
+      }
     });
   }
 

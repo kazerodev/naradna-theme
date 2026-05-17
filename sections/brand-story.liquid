@@ -1,9 +1,9 @@
 <section class="section brand-section">
   <div class="container">
     {%- if section.settings.image != blank -%}
-      <img class="brand-section__image" src="{{ section.settings.image | image_url: width: 900 }}" alt="{{ section.settings.title | escape }}" loading="lazy" width="900" height="1125">
+      <img class="brand-section__image" src="{{ section.settings.image | image_url: width: 900 }}" alt="{{ section.settings.title | escape }}" loading="lazy" width="900" height="1125" data-aos="fade-right">
     {%- endif -%}
-    <div class="brand-section__text-content">
+    <div class="brand-section__text-content" data-aos="fade-left" data-aos-delay="100">
       {%- if section.settings.eyebrow != blank -%}
         <p class="brand-section__eyebrow">{{ section.settings.eyebrow }}</p>
       {%- endif -%}
