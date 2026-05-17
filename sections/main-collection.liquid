@@ -1,12 +1,19 @@
-<main class="container collection-main" id="CollectionMain">
-  <header class="collection-header">
-    <h1 class="collection-header__title">{{ collection.title }}</h1>
+<div class="collection-hero">
+  <div class="collection-hero__bg" aria-hidden="true"></div>
+  <div class="container">
+    <span class="collection-hero__eyebrow">Colección</span>
+    <h1 class="collection-hero__title">{{ collection.title }}</h1>
     {%- if collection.description != blank -%}
-      <p class="collection-header__desc">{{ collection.description }}</p>
+      <p class="collection-hero__desc">{{ collection.description }}</p>
     {%- endif -%}
-    <p class="collection-header__count">{{ collection.products_count }} fragancias</p>
-  </header>
+    <div class="collection-hero__meta">
+      <span class="collection-hero__count">{{ collection.products_count }} fragancias</span>
+    </div>
+    <div class="collection-hero__line" aria-hidden="true"></div>
+  </div>
+</div>
 
+<main class="container collection-main" id="CollectionMain">
   <div class="product-grid">
     {%- for product in collection.products -%}
       {%- render 'product-card', product: product -%}

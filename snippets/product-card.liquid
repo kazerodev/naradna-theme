@@ -20,7 +20,7 @@
       {%- endif -%}
 
       {%- if product.tags contains 'bestseller' -%}
-        <span class="product-card__badge product-card__badge--bestseller">Mas vendido</span>
+        <span class="product-card__badge product-card__badge--bestseller">Más vendido</span>
       {%- elsif product.tags contains 'nuevo' -%}
         <span class="product-card__badge">Nuevo</span>
       {%- endif -%}
@@ -33,15 +33,16 @@
             data-variant-id="{{ first_variant.id }}"
             data-url="{{ product.url }}"
             onclick="event.preventDefault()">
-            Anadir al carrito
+            Añadir al carrito
           </button>
+          <span class="product-card__view-link">Ver producto &rarr;</span>
         </div>
       </div>
 
     </div>
     <div class="product-card__body">
       {%- assign gender = '' -%}
-      {%- if product.tags contains 'para-el' -%}{%- assign gender = 'Para el' -%}
+      {%- if product.tags contains 'para-el' -%}{%- assign gender = 'Para él' -%}
       {%- elsif product.tags contains 'para-ella' -%}{%- assign gender = 'Para ella' -%}
       {%- elsif product.tags contains 'unisex' -%}{%- assign gender = 'Unisex' -%}
       {%- endif -%}
@@ -53,7 +54,7 @@
       <div class="product-card__footer">
         <div>
           <span class="product-card__price">{{ product.price | money }}</span>
-          <span class="product-card__free-ship">&#10003; Envio gratis</span>
+          <span class="product-card__free-ship">&#10003; Envío gratis</span>
         </div>
         <span class="product-card__stars-sm" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
       </div>

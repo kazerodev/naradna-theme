@@ -426,11 +426,25 @@
   var openCart, closeCart;
 
   /* =============================================
+     HEADER SCROLL STATE
+  ============================================= */
+  function initHeaderScroll() {
+    var header = document.querySelector('.site-header');
+    if (!header) return;
+    function onScroll() {
+      header.classList.toggle('is-scrolled', window.scrollY > 20);
+    }
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+  }
+
+  /* =============================================
      DOM READY
   ============================================= */
   document.addEventListener('DOMContentLoaded', function () {
 
     initParallax();
+    initHeaderScroll();
     initCursorOrb();
     initCursor();
     initMagnetic();
