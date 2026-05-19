@@ -110,14 +110,22 @@
     cursor.ring = document.createElement('div');
     cursor.ring.className = 'cursor-ring';
     cursor.ring.setAttribute('aria-hidden', 'true');
+    cursor.dot.style.left = '-200px';
+    cursor.dot.style.top = '-200px';
     document.body.appendChild(cursor.dot);
     document.body.appendChild(cursor.ring);
 
+    var cursorVisible = false;
     document.addEventListener('mousemove', function (e) {
       cursor.x = e.clientX;
       cursor.y = e.clientY;
       cursor.dot.style.left = e.clientX + 'px';
       cursor.dot.style.top = e.clientY + 'px';
+      if (!cursorVisible) {
+        cursorVisible = true;
+        cursor.dot.classList.add('is-visible');
+        cursor.ring.classList.add('is-visible');
+      }
     }, { passive: true });
 
     document.addEventListener('mousedown', function () {

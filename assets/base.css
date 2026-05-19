@@ -613,22 +613,26 @@ button { font-family: inherit; -webkit-tap-highlight-color: transparent; }
   width: 8px; height: 8px; border-radius: 50%;
   background: var(--color-accent);
   transform: translate(-50%, -50%);
+  opacity: 0;
   transition: transform 0.15s ease,
     width 0.3s cubic-bezier(0.16,1,0.3,1),
     height 0.3s cubic-bezier(0.16,1,0.3,1),
-    background 0.3s ease, opacity 0.3s ease;
+    background 0.3s ease, opacity 0.4s ease;
   will-change: left, top;
 }
+.cursor-dot.is-visible { opacity: 1; }
 .cursor-ring {
   position: fixed; z-index: 9994; pointer-events: none;
   width: 42px; height: 42px; border-radius: 50%;
   border: 1.5px solid rgba(201,169,110,0.5);
   transform: translate(-50%, -50%);
+  opacity: 0;
   transition: width 0.38s cubic-bezier(0.16,1,0.3,1),
     height 0.38s cubic-bezier(0.16,1,0.3,1),
-    border-color 0.38s ease;
+    border-color 0.38s ease, opacity 0.4s ease;
   will-change: left, top;
 }
+.cursor-ring.is-visible { opacity: 1; }
 .cursor-dot.is-hovering { width: 14px; height: 14px; }
 .cursor-ring.is-hovering { width: 68px; height: 68px; border-color: rgba(201,169,110,0.18); }
 .cursor-dot.is-clicking { transform: translate(-50%, -50%) scale(0.45); opacity: 0.7; }
